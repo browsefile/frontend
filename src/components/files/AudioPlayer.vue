@@ -41,9 +41,7 @@
                                     name: item.name,
                                     url: url.convertToDownload(item.url)
                                 })
-                                if (!this.isShow) {
-                                    this.isShow = true
-                                }
+
                             }
                         }
                     }).catch(_that.$showError)
@@ -58,8 +56,6 @@
                 }
                 if (this.player.list.audios.length == 0) {
                     this.player.notice('Empty list')
-                } else {
-                    this.isShow = true
                 }
 
                 this.player.setMode('normal')
