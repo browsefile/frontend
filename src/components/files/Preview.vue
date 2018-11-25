@@ -89,15 +89,13 @@
 
         <div class="preview">
             <img v-if="req.type == 'image'" :src="raw()">
-            <span class="video-container" v-else-if="req.type == 'video'">
-                <video :src="raw()" autoplay controls>
-                    <track v-for="(sub, index) in subtitles" :kind="sub.kind" :src="'/api/subtitle/' + sub.src"
-                           :label="sub.label" :default="index === 0">
-                    Sorry, your browser doesn't support embedded videos,
-                    but don't worry, you can <a :href="download()">download it</a>
-                    and watch it with your favorite video player!
-                </video>
-            </span>
+            <video v-else-if="req.type == 'video'" :src="raw()" autoplay controls>
+                <track v-for="(sub, index) in subtitles" :kind="sub.kind" :src="'/api/subtitle/' + sub.src"
+                       :label="sub.label" :default="index === 0">
+                Sorry, your browser doesn't support embedded videos,
+                but don't worry, you can <a :href="download()">download it</a>
+                and watch it with your favorite video player!
+            </video>
             <object v-else-if="req.extension == '.pdf'" class="pdf" :data="raw()"></object>
             <a v-else-if="req.type == 'blob'" :href="download()">
                 <h2 class="message">{{ $t('buttons.download') }} <i class="material-icons">file_download</i></h2>
