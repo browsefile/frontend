@@ -1,4 +1,4 @@
-function removeLastDir (url) {
+export function removeLastDir (url) {
   var arr = url.split('/')
   if (arr.pop() === '') {
     arr.pop()
@@ -7,6 +7,6 @@ function removeLastDir (url) {
   return arr.join('/')
 }
 
-export default {
-  removeLastDir: removeLastDir
+export function convertToDownload (url) {
+  return url.replace('files', 'api/download') + '/'
 }

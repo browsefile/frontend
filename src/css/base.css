@@ -25,9 +25,6 @@ img {
 }
 
 audio,
-video {
-  width: 100%;
-}
 
 pre {
   padding: 1em;
@@ -212,3 +209,5 @@ main {
   width: 0;
   transition: .2s ease width;
 }
+
+

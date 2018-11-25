@@ -6,7 +6,7 @@ import i18n from './i18n'
 import Noty from 'noty'
 
 Vue.config.productionTip = true
-
+export const playerEventBus = new Vue()
 const notyDefault = {
   type: 'info',
   layout: 'bottomRight',
@@ -14,6 +14,20 @@ const notyDefault = {
   progressBar: true
 }
 
+Vue.prototype.fullScreen = function (event) {
+  let element = document.body
+  if (event instanceof HTMLElement) {
+    element = event
+  }
+  var isFullscreen = document.webkitIsFullScreen || document.mozFullScreen || false
+  element.requestFullScreen = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || function () {
+    return false
+  }
+  document.cancelFullScreen = document.cancelFullScreen || document.webkitCancelFullScreen || document.mozCancelFullScreen || function () {
+    return false
+  }
+  isFullscreen ? document.cancelFullScreen() : element.requestFullScreen()
+}
 Vue.prototype.$noty = function (opts) {
   new Noty(Object.assign({}, notyDefault, opts)).show()
 }
@@ -26,6 +40,7 @@ Vue.prototype.$showSuccess = function (message) {
 }
 
 Vue.prototype.$showError = function (error) {
+  console.error(error)
   let n = new Noty(Object.assign({}, notyDefault, {
     text: error,
     type: 'error',
@@ -56,5 +71,5 @@ new Vue({
   router,
   i18n,
   template: '<App/>',
-  components: { App }
+  components: {App}
 })
