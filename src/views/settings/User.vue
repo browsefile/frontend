@@ -21,6 +21,10 @@
           <label for="scope">{{ $t('settings.scope') }}</label>
           <input type="text" v-model="filesystem" id="scope">
         </p>
+        <p>
+          <label for="scope">{{ $t('settings.previewScope') }}</label>
+          <input type="text" v-model="previewScope" id="previewScope">
+        </p>
 
         <p>
           <label for="locale">{{ $t('settings.language') }}</label>
@@ -114,6 +118,7 @@ export default {
       password: '',
       username: '',
       filesystem: '',
+      previewScope: '',
       rules: '',
       locale: '',
       css: '',
@@ -162,6 +167,7 @@ export default {
         this.allowPublish = user.allowPublish
         this.lockPassword = user.lockPassword
         this.filesystem = user.filesystem
+        this.previewScope = user.previewScope
         this.username = user.username
         this.css = user.css
         this.permissions = user.permissions
@@ -214,6 +220,7 @@ export default {
       this.password = ''
       this.username = ''
       this.filesystem = ''
+      this.previewScope = ''
       this.rules = ''
       this.locale = ''
       this.css = ''
@@ -263,6 +270,7 @@ export default {
       user.password = this.password
       user.lockPassword = this.lockPassword
       user.filesystem = this.filesystem
+      user.previewScope = this.previewScope
       user.admin = this.admin
       user.allowCommands = this.allowCommands
       user.allowNew = this.allowNew

@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import url from '@/utils/url'
+import * as url from '@/utils/url'
 import * as api from '@/utils/api'
 
 export default {

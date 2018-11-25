@@ -20,7 +20,7 @@
 <script>
 import {mapGetters, mapMutations, mapState} from 'vuex'
 import { remove } from '@/utils/api'
-import url from '@/utils/url'
+import * as url from '@/utils/url'
 import buttons from '@/utils/buttons'
 
 export default {

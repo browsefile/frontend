@@ -1,5 +1,6 @@
 permanent: Permanent
 buttons:
+  afolder: Play selected or current folder
   cancel: Cancel
   close: Close
   copy: Copy
@@ -150,6 +151,7 @@ settings:
     {0} or {1}. Then you should write {2} if you are using a regular expression and
     then the expression or the path.
   scope: Scope
+  previewScope: Path in system to store media previews
   settingsUpdated: Settings updated!
   user: User
   userCommands: Commands

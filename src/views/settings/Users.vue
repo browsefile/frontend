@@ -11,6 +11,7 @@
           <th>{{ $t('settings.username') }}</th>
           <th>{{ $t('settings.admin') }}</th>
           <th>{{ $t('settings.scope') }}</th>
+          <th>{{ $t('settings.previewScope') }}</th>
           <th></th>
         </tr>
 
@@ -18,6 +19,7 @@
           <td>{{ user.username }}</td>
           <td><i v-if="user.admin" class="material-icons">done</i><i v-else class="material-icons">close</i></td>
           <td>{{ user.filesystem }}</td>
+          <td>{{ user.previewScope }}</td>
           <td class="small">
             <router-link :to="'/settings/users/' + user.ID"><i class="material-icons">mode_edit</i></router-link>
           </td>

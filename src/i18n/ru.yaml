@@ -1,5 +1,6 @@
 permanent: Постоянный
 buttons:
+  afolder: Играть текущую или выбранные папки
   cancel: Отмена
   close: Закрыть
   copy: Копировать

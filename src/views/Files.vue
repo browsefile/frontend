@@ -44,7 +44,7 @@ export default {
     InternalError,
     Preview,
     Listing,
-    Editor
+    Editor,
   },
   computed: {
     ...mapGetters([
