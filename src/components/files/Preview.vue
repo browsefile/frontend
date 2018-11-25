@@ -1,6 +1,6 @@
 <template>
 
-    <div v-if="req.type == 'image'">
+    <div v-if="isMedia">
         <!-- Root element of PhotoSwipe. Must have class pswp. -->
         <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
             <!-- Background of PhotoSwipe.
@@ -22,7 +22,7 @@
                 <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
                 <div class="pswp__ui pswp__ui--hidden">
 
-                    <div class="pswp__top-bar">
+                    <div class="pswp__top-bar" >
 
                         <!--  Controls are self-explanatory. Order can be changed. -->
 
@@ -161,17 +161,25 @@
             api.fetch(url.removeLastDir(this.$route.path))
                 .then(req => {
                     this.listing = req
-                    this.applyTypeFilter(this.req.type)
-                    if (this.req.type == 'image') {
+                    this.applyTypeFilter((this.isMedia() ? ['image', 'video'] : this.req.type))
+                    if (this.isMedia()) {
                         let items = this.listing.items
                         let list = []
                         for (let i = 0; i < items.length; i++) {
                             let src = this.raw(items[i].url)
-                            list.push({
-                                src: src,
-                                w: 0,
-                                h: 0
-                            })
+                            if (items[i].type == 'video') {
+                                list.push({
+                                    html: "<video src='" + src + "' controls > </video>",
+                                    w: window.screen.width,
+                                    h: window.screen.height
+                                })
+                            } else {
+                                list.push({
+                                    src: src,
+                                    w: 0,
+                                    h: 0
+                                })
+                            }
                         }
                         this.options.index = this.getPos()
                         let gallery = this.ps = new PhotoSwipe(document.querySelectorAll('.pswp')[0], PhotoSwipeUI_Default, list, this.options)
@@ -198,7 +206,19 @@
                             gap.top = 0 // There will be 50px gap from top of viewport
                             gap.bottom = 0 // and 100px gap from the bottom
                         })
+
+
                         this.ps.init()
+                        gallery.framework.bind( gallery.scrollWrap /* bind on any element of gallery */, 'pswpTap', function(e) {
+                            console.log('tap', e, e.detail);
+                            if('video' == e.detail.target.tagName.toLowerCase()){
+                                e.detail.target.setAttribute("controls","controls");
+                            }
+                            // e.detail.origEvent  // original event that finished tap (e.g. mouseup or touchend)
+                            // e.detail.target // e.target of original event
+                            // e.detail.releasePoint // object with x/y coordinates of tap
+                            // e.detail.pointerType // mouse, touch, or pen
+                        });
 
                     } else {
                         this.updateLinks()
@@ -207,7 +227,7 @@
 
                 }).catch(this.$showError)
 
-            if (this.req.type === 'audio' || this.req.type === 'video') {
+            if (this.req.type === 'audio') {
                 api.subtitles(this.req.url.slice(6))
                     .then(req => {
                         this.subtitles = req
@@ -219,6 +239,9 @@
             window.removeEventListener('keyup', this.key)
         },
         methods: {
+            isMedia() {
+                return this.req.type == 'video' || this.req.type == 'image'
+            },
             getPos() {
                 for (let i = 0; i < this.listing.items.length; i++) {
                     if (this.listing.items[i].name === this.req.name) {
@@ -228,10 +251,10 @@
                 return null
             },
             applyTypeFilter(t) {
-                if (!t || t == '') {
+                if (!t || t.length == 0) {
                     return
                 }
-                this.listing.items = this.listing.items.filter(item => item.type == t)
+                this.listing.items = this.listing.items.filter(file => t.filter(ti => file.type == ti).length > 0)
             },
             download(itemUrl) {
                 let res
