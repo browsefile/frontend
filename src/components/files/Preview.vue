@@ -210,7 +210,6 @@
 
                         this.ps.init()
                         gallery.framework.bind( gallery.scrollWrap /* bind on any element of gallery */, 'pswpTap', function(e) {
-                            console.log('tap', e, e.detail);
                             if('video' == e.detail.target.tagName.toLowerCase()){
                                 e.detail.target.setAttribute("controls","controls");
                             }
