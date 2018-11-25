@@ -175,6 +175,18 @@
     right: 0.5em;
 }
 
+.video-container {
+
+}
+
+.video-container video {
+    /*fix me*/
+    width: 480px;
+    height: 320px;
+    min-width: 120px;
+    min-height: 120px;
+}
+
 /* * * * * * * * * * * * * * * *
  *            PROMPT           *
  * * * * * * * * * * * * * * * */
