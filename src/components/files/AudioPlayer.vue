@@ -29,21 +29,14 @@
             ...mapMutations([]),
             fetch(path) {
                 let _that = this
-                api.fetch(path)
+                api.fetch(path + "?recursive=true")
                     .then(function (req) {
-                        for (let i in  req.items) {
-                            let item = req.items[i]
-                            if (item.isDir) {
-                                // Do recursive here
-                                _that.fetch(item.url)
-                            } else if (item.type == 'audio') {
-                                _that.player.list.add({
-                                    name: item.name,
-                                    url: url.convertToDownload(item.url)
-                                })
-
-                            }
+                        let itemsFiltered = req.items.filter(it => it.type == 'audio')
+                        for (let i in itemsFiltered) {
+                            req.items[i].url = url.convertToDownload(req.items[i].url)
                         }
+                        _that.player.list.add(itemsFiltered)
+
                     }).catch(_that.$showError)
             },
             playTrack(tracks) {
