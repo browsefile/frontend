@@ -64,7 +64,7 @@
         return 'insert_drive_file'
       }
     }, mounted () {
-      this.thumb = this.type != 'text' && this.type != 'audio'
+      this.thumb = this.type != 'text' && this.type != 'audio' && !this.isDir
     },
     methods: {
       ...mapMutations(['addSelected', 'removeSelected', 'resetSelected']),
