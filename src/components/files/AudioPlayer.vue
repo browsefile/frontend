@@ -33,9 +33,19 @@
                     .then(function (req) {
                         let itemsFiltered = req.items.filter(it => it.type == 'audio')
                         for (let i in itemsFiltered) {
-                            req.items[i].url = url.convertToDownload(req.items[i].url)
+                            itemsFiltered[i].url = url.convertToDownload(itemsFiltered[i].url)
                         }
-                        _that.player.list.add(itemsFiltered)
+                        _that.player.list.add(itemsFiltered.map(it => {
+                            return {
+                                name: it.name,
+                                url: url.convertToDownload(it.url)
+                            }
+                        }))
+                        if (_that.player.list.audios.length == 0) {
+                            _that.player.notice('Empty list')
+                        } else {
+                            _that.player.play()
+                        }
 
                     }).catch(_that.$showError)
             },
@@ -49,10 +59,9 @@
                 }
                 if (this.player.list.audios.length == 0) {
                     this.player.notice('Empty list')
+                } else {
+                    this.player.play()
                 }
-
-                this.player.setMode('normal')
-                this.player.play()
             },
             playFolders(paths) {
                 this.init()

@@ -8,5 +8,5 @@ export function removeLastDir (url) {
 }
 
 export function convertToDownload (url) {
-  return url.replace('files', 'api/download') + '/'
+  return url.replace('files', 'api/download')
 }
