@@ -9,6 +9,7 @@
       <router-view @css="$emit('update:css')"></router-view>
     </main>
     <prompts></prompts>
+    <audio-player></audio-player>
   </div>
 </template>
 
@@ -17,6 +18,7 @@ import Search from '@/components/Search'
 import Sidebar from '@/components/Sidebar'
 import Prompts from '@/components/prompts/Prompts'
 import SiteHeader from '@/components/Header'
+import AudioPlayer from '@/components/files/AudioPlayer'
 
 export default {
   name: 'layout',
@@ -24,7 +26,8 @@ export default {
     Search,
     Sidebar,
     SiteHeader,
-    Prompts
+    Prompts,
+    AudioPlayer,
   },
   watch: {
     '$route': function () {
