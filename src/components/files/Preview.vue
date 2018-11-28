@@ -158,11 +158,12 @@
             }
         },
         mounted() {
-            //filter out types from media
-            this.applyTypeFilter(this.isMedia() ? ['image', 'video'] : [this.req.type])
+
             api.fetch(url.removeLastDir(this.$route.path))
                 .then(req => {
                     this.listing = req
+                    //filter out types from media
+                    this.applyTypeFilter(['image', 'video', [this.req.type]])
                     if (this.isMedia()) {
                         let items = this.listing.items
                         let list = []
