@@ -22,7 +22,7 @@
                 <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
                 <div class="pswp__ui pswp__ui--hidden">
 
-                    <div class="pswp__top-bar" >
+                    <div class="pswp__top-bar">
 
                         <!--  Controls are self-explanatory. Order can be changed. -->
 
@@ -161,8 +161,8 @@
             api.fetch(url.removeLastDir(this.$route.path))
                 .then(req => {
                     this.listing = req
-                    this.applyTypeFilter((this.isMedia() ? ['image', 'video'] : [this.req.type]))
                     if (this.isMedia()) {
+                        this.applyTypeFilter(['image', 'video'])
                         let items = this.listing.items
                         let list = []
                         for (let i = 0; i < items.length; i++) {
@@ -209,9 +209,9 @@
 
 
                         this.ps.init()
-                        gallery.framework.bind( gallery.scrollWrap /* bind on any element of gallery */, 'pswpTap', function(e) {
-                            if('video' == e.detail.target.tagName.toLowerCase()){
-                                e.detail.target.setAttribute("controls","controls");
+                        gallery.framework.bind(gallery.scrollWrap /* bind on any element of gallery */, 'pswpTap', function (e) {
+                            if ('video' == e.detail.target.tagName.toLowerCase()) {
+                                e.detail.target.setAttribute("controls", "controls");
                             }
                             // e.detail.origEvent  // original event that finished tap (e.g. mouseup or touchend)
                             // e.detail.target // e.target of original event
