@@ -1,6 +1,6 @@
 <template>
 
-    <div v-if="isMedia">
+    <div v-if="isMedia()">
         <!-- Root element of PhotoSwipe. Must have class pswp. -->
         <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
             <!-- Background of PhotoSwipe.
@@ -158,11 +158,12 @@
             }
         },
         mounted() {
+            //filter out types from media
+            this.applyTypeFilter(this.isMedia() ? ['image', 'video'] : [this.req.type])
             api.fetch(url.removeLastDir(this.$route.path))
                 .then(req => {
                     this.listing = req
                     if (this.isMedia()) {
-                        this.applyTypeFilter(['image', 'video'])
                         let items = this.listing.items
                         let list = []
                         for (let i = 0; i < items.length; i++) {
