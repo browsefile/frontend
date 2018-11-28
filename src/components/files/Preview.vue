@@ -161,7 +161,7 @@
             api.fetch(url.removeLastDir(this.$route.path))
                 .then(req => {
                     this.listing = req
-                    this.applyTypeFilter((this.isMedia() ? ['image', 'video'] : this.req.type))
+                    this.applyTypeFilter((this.isMedia() ? ['image', 'video'] : [this.req.type]))
                     if (this.isMedia()) {
                         let items = this.listing.items
                         let list = []
