@@ -10,7 +10,6 @@
          :class="user.viewMode"
          @dragenter="dragEnter"
          @dragend="dragEnd">
-        <audio-player v-show="req.numDirs>0"></audio-player>
         <div>
             <div class="item header">
                 <div></div>
@@ -96,11 +95,10 @@
   import css from '@/utils/css'
   import * as api from '@/utils/api'
   import buttons from '@/utils/buttons'
-  import AudioPlayer from './AudioPlayer'
 
   export default {
     name: 'listing',
-    components: {Item, AudioPlayer},
+    components: {Item},
     data: function () {
       return {
         show: 50
