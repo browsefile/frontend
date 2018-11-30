@@ -191,7 +191,8 @@
                                 img.onload = () => { // will get size after load
                                     item.w = img.width  // set image width
                                     item.h = img.height   // set image height
-                                    gallery.invalidateCurrItems() // reinit Items
+                                    //gallery.invalidateCurrItems() // reinit Items
+                                    item.needsUpdate = true
                                     gallery.updateSize(true) // reinit Items
                                 }
                                 img.src = item.src // let's download image
