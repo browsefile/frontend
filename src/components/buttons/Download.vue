@@ -1,35 +1,48 @@
 <template>
-  <button @click="download" :aria-label="$t('buttons.download')" :title="$t('buttons.download')" id="download-button" class="action">
-    <i class="material-icons">file_download</i>
-    <span>{{ $t('buttons.download') }}</span>
-    <span v-if="selectedCount > 0" class="counter">{{ selectedCount }}</span>
-  </button>
+    <button @click="download" :aria-label="$t('buttons.download')" :title="$t('buttons.download')" id="download-button"
+            class="action">
+        <i class="material-icons">file_download</i>
+        <span>{{ $t('buttons.download') }}</span>
+        <span v-if="selectedCount > 0" class="counter">{{ selectedCount }}</span>
+    </button>
 </template>
 
 <script>
-import {mapGetters, mapState} from 'vuex'
-import { files as api } from '@/api'
+    import {mapGetters, mapState} from 'vuex'
+    import * as files from '@/api/files'
+    import * as share from '@/api/share'
 
-export default {
-  name: 'download-button',
-  computed: {
-    ...mapState(['req', 'selected']),
-    ...mapGetters(['isListing', 'selectedCount'])
-  },
-  methods: {
-    download: function () {
-      if (!this.isListing) {
-        api.download(null, this.$route.path)
-        return
-      }
+    export default {
+        name: 'download-button',
+        computed: {
+            ...mapState(['req', 'selected', 'isShare']),
+            ...mapGetters(['isListing', 'selectedCount'])
+        },
+        methods: {
+            download: function () {
+                console.log(this.selectedCount)
+                if (this.selectedCount === 0) {
+                    if (this.isShare) {
+                        share.download('zip', this.$route.path)
+                    } else {
+                        files.download('zip', this.$route.path)
+                    }
+                } else {
+                    let filesList = []
 
-      if (this.selectedCount === 1 && !this.req.items[this.selected[0]].isDir) {
-        api.download(null, this.req.items[this.selected[0]].url)
-        return
-      }
+                    for (let i of this.selected) {
+                        filesList.push(this.req.items[i].url)
+                    }
 
-      this.$store.commit('showHover', 'download')
+                    if (this.isShare) {
+                        share.download('zip', ...filesList)
+                    } else {
+                        files.download('zip', ...filesList)
+                    }
+                }
+
+
+            }
+        }
     }
-  }
-}
 </script>

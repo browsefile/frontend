@@ -58,7 +58,8 @@
     "size": "Size",
     "sortByName": "Sort by name",
     "sortBySize": "Sort by size",
-    "sortByLastModified": "Sort by last modified"
+    "sortByLastModified": "Sort by last modified",
+    "owner": "Owner"
   },
   "help": {
     "click": "select file or directory",
@@ -193,7 +194,8 @@
     "settings": "Settings",
     "siteSettings": "Site Settings",
     "hugoNew": "Hugo New",
-    "preview": "Preview"
+    "preview": "Preview",
+    "share": "Other users share "
   },
   "search": {
     "images": "Images",

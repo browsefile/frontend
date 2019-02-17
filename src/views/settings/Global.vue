@@ -12,10 +12,6 @@
         <p class="small">{{ $t('settings.globalRules') }}</p>
         <rules :rules.sync="settings.rules" />
 
-        <h3>{{ $t('settings.executeOnShell') }}</h3>
-        <p class="small">{{ $t('settings.executeOnShellDescription') }}</p>
-        <input class="input input--block" type="text" placeholder="bash -c, cmd /c, ..." v-model="settings.shell" />
-
         <h3>{{ $t('settings.branding') }}</h3>
 
         <i18n path="settings.brandingHelp" tag="p" class="small">
@@ -61,28 +57,6 @@
     </form>
 
     <form class="card" @submit.prevent="save">
-      <div class="card-title">
-        <h2>{{ $t('settings.commandRunner') }}</h2>
-      </div>
-
-      <div class="card-content">
-        <i18n path="settings.commandRunnerHelp" tag="p" class="small">
-          <code>FILE</code>
-          <code>SCOPE</code>
-          <a class="link" target="_blank" href="https://docs.filebrowser.xyz/configuration/command-runner">{{ $t('settings.documentation') }}</a>
-        </i18n>
-
-        <div v-for="command in settings.commands" :key="command.name" class="collapsible">
-          <input :id="command.name" type="checkbox">
-          <label :for="command.name">
-            <p>{{ capitalize(command.name) }}</p>
-            <i class="material-icons">arrow_drop_down</i>
-          </label>
-          <div class="collapse">
-            <textarea class="input input--block input--textarea" v-model.trim="command.value"></textarea>
-          </div>
-        </div>
-      </div>
 
       <div class="card-action">
         <input class="button button--flat" type="submit" :value="$t('buttons.update')">
@@ -115,16 +89,7 @@ export default {
   async created () {
     try {
       const original = await api.get()
-      let settings = { ...original, commands: [] }
-
-      for (const key in original.commands) {
-        settings.commands.push({
-          name: key,
-          value: original.commands[key].join('\n')
-        })
-      }
-
-      settings.shell = settings.shell.join(' ')
+      let settings = { ...original}
 
       this.originalSettings = original
       this.settings = settings
@@ -146,13 +111,8 @@ export default {
     },
     async save () {
       let settings = {
-        ...this.settings,
-        shell: this.settings.shell.trim().split(' ').filter(s => s !== ''),
-        commands: {}
-      }
+        ...this.settings
 
-      for (const { name, value } of this.settings.commands) {
-        settings.commands[name] = value.split('\n').filter(cmd => cmd !== '')
       }
 
       try {

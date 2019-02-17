@@ -78,8 +78,8 @@ export default {
       }
 
       try {
-        const data = { id: this.user.id, password: this.password }
-        await api.update(data, ['password'])
+        const data = { username: this.user.username, password: this.password }
+        await api.update(data, 'password')
         this.updateUser(data)
         this.$showSuccess(this.$t('settings.passwordUpdated'))
       } catch (e) {
@@ -90,8 +90,8 @@ export default {
       event.preventDefault()
 
       try {
-        const data = { id: this.user.id, locale: this.locale }
-        await api.update(data, ['locale'])
+        const data = { username: this.user.username, locale: this.locale }
+        await api.update(data, 'locale')
         this.updateUser(data)
         this.$showSuccess(this.$t('settings.settingsUpdated'))
       } catch (e) {

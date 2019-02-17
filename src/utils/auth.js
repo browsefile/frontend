@@ -18,7 +18,7 @@ export function parseToken (token) {
 
   localStorage.setItem('jwt', token)
   store.commit('setJWT', token)
-  store.commit('setUser', data.user)
+  store.commit('setUser', data)
 }
 
 export async function validateLogin () {
@@ -34,14 +34,13 @@ export async function validateLogin () {
 export async function login (username, password, recaptcha) {
   const data = { username, password, recaptcha }
 
-  const res = await fetch(`${baseURL}/api/login`, {
+  const res = await fetch(`${baseURL}/api/auth/get`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
   })
-
   const body = await res.text()
 
   if (res.status === 200) {
@@ -52,7 +51,7 @@ export async function login (username, password, recaptcha) {
 }
 
 export async function renew (jwt) {
-  const res = await fetch(`${baseURL}/api/renew`, {
+  const res = await fetch(`${baseURL}/api/auth/renew`, {
     method: 'POST',
     headers: {
       'X-Auth': jwt,

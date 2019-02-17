@@ -13,7 +13,7 @@ export async function create (user) {
     method: 'POST',
     body: JSON.stringify({
       what: 'user',
-      which: [],
+      which: '',
       data: user
     })
   })
@@ -26,7 +26,7 @@ export async function create (user) {
 
 }
 
-export async function update (user, which = ['all']) {
+export async function update (user, which = 'all') {
   const res = await fetchURL(`/api/users/${user.id}`, {
     method: 'PUT',
     body: JSON.stringify({

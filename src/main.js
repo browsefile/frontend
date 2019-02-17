@@ -8,7 +8,7 @@ import { login, validateLogin } from '@/utils/auth'
 import App from '@/App'
 
 sync(store, router)
-
+export const playerEventBus = new Vue()
 async function start () {
   if (noAuth) {
     await login('', '', '')

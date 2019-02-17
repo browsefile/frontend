@@ -35,7 +35,7 @@
                             if (!sel.isDir && (sel.type == 'audio' || sel.type == 'video')) {
                                 playList.push({
                                     name: sel.name,
-                                    url: url.convertToDownload(sel.url)
+                                    url: url.convertToPreview(sel.url)
                                 })
                             }
                         }

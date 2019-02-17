@@ -7,7 +7,7 @@
     <sidebar></sidebar>
     <main>
       <router-view></router-view>
-      <shell v-if="isLogged && user.perm.execute" />
+
     </main>
     <prompts></prompts>
   </div>
@@ -18,15 +18,13 @@ import { mapState, mapGetters } from 'vuex'
 import Sidebar from '@/components/Sidebar'
 import Prompts from '@/components/prompts/Prompts'
 import SiteHeader from '@/components/Header'
-import Shell from '@/components/Shell'
 
 export default {
   name: 'layout',
   components: {
     Sidebar,
     SiteHeader,
-    Prompts,
-    Shell
+    Prompts
   },
   computed: {
     ...mapGetters([ 'isLogged' ]),

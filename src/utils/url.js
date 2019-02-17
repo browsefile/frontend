@@ -1,12 +1,36 @@
-export function removeLastDir (url) {
-  var arr = url.split('/')
-  if (arr.pop() === '') {
-    arr.pop()
-  }
+import {baseURL} from '@/utils/constants'
 
-  return arr.join('/')
+export function removeLastDir(url) {
+    var arr = url.split('/')
+    if (arr.pop() === '') {
+        arr.pop()
+    }
+
+    return arr.join('/')
 }
 
-export function convertToDownload (url) {
-  return url.replace('files', 'api/download')
+export function convertToPreview(url, isShare, isPreview, auth) {
+    let res
+    let parm = {
+        'inline': true
+    }
+    if (auth) {
+        parm.auth = auth
+    }
+    if (isPreview) {
+        parm.previewType = 'thumb'
+    }
+    let sym = isShare ? '&' : '?'
+    if (isShare) {
+        res = baseURL + url.replace('shares', 'api/shares/download')
+    } else res = baseURL + url.replace('files', 'api/download')
+    return res + sym + this.encodeUrlData(parm)
 }
+
+export function encodeUrlData(data) {
+    return Object.keys(data).map(function (key) {
+        return [key, data[key]].map(encodeURIComponent).join("=");
+    }).join("&");
+
+}
+

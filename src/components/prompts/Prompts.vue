@@ -1,7 +1,6 @@
 <template>
   <div>
     <help v-if="showHelp" ></help>
-    <download v-else-if="showDownload"></download>
     <new-file v-else-if="showNewFile"></new-file>
     <new-dir v-else-if="showNewDir"></new-dir>
     <rename v-else-if="showRename"></rename>
@@ -20,7 +19,6 @@ import Help from './Help'
 import Info from './Info'
 import Delete from './Delete'
 import Rename from './Rename'
-import Download from './Download'
 import Move from './Move'
 import Copy from './Copy'
 import NewFile from './NewFile'
@@ -36,7 +34,6 @@ export default {
     Info,
     Delete,
     Rename,
-    Download,
     Move,
     Copy,
     Share,
@@ -64,7 +61,6 @@ export default {
     showCopy: function () { return this.show === 'copy' },
     showNewFile: function () { return this.show === 'newFile' },
     showNewDir: function () { return this.show === 'newDir' },
-    showDownload: function () { return this.show === 'download' },
     showReplace: function () { return this.show === 'replace' },
     showOverlay: function () {
       return (this.show !== null && this.show !== 'search' && this.show !== 'more')

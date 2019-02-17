@@ -21,11 +21,8 @@
     </p>
 
     <p v-if="!isDefault">
-      <input type="checkbox" :disabled="user.perm.admin" v-model="user.lockPassword"> {{ $t('settings.lockPassword') }}
+      <input type="checkbox" :disabled="user.admin" v-model="user.lockPassword"> {{ $t('settings.lockPassword') }}
     </p>
-
-    <permissions :perm.sync="user.perm" />
-    <commands :commands.sync="user.commands" />
 
     <div v-if="!isDefault">
       <h3>{{ $t('settings.rules') }}</h3>
@@ -38,16 +35,12 @@
 <script>
 import Languages from './Languages'
 import Rules from './Rules'
-import Permissions from './Permissions'
-import Commands from './Commands'
 
 export default {
   name: 'user',
   components: {
-    Permissions,
     Languages,
-    Rules,
-    Commands
+    Rules
   },
   props: [ 'user', 'isNew', 'isDefault' ],
   computed: {
@@ -56,8 +49,8 @@ export default {
     }
   },
   watch: {
-    'user.perm.admin': function () {
-      if (!this.user.perm.admin) return
+    'user.admin': function () {
+      if (!this.user.admin) return
       this.user.lockPassword = false
     }
   }

@@ -24,12 +24,12 @@ export default {
       this.closeHovers()
 
       const data = {
-        id: this.user.id,
+          username: this.user.username,
         viewMode: (this.icon === 'view_list') ? 'list' : 'mosaic'
       }
 
       try {
-        await api.update(data, ['viewMode'])
+        await api.update(data, 'viewMode')
         this.updateUser(data)
       } catch (e) {
         this.$showError(e)

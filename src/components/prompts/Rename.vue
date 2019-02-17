@@ -25,7 +25,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import url from '@/utils/url'
+import * as url from "@/utils/url"
 import { files as api } from '@/api'
 
 export default {

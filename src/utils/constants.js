@@ -1,13 +1,12 @@
-const name = window.FileBrowser.Name || 'File Browser'
-const disableExternal = window.FileBrowser.DisableExternal
-const baseURL = window.FileBrowser.BaseURL
-const staticURL = window.FileBrowser.StaticURL
-const recaptcha = window.FileBrowser.ReCaptcha
-const recaptchaKey = window.FileBrowser.ReCaptchaKey
-const signup = window.FileBrowser.Signup
-const version = window.FileBrowser.Version
-const logoURL = `/${staticURL}/img/logo.svg`
-const noAuth = window.FileBrowser.NoAuth
+const name = 'Browsefile'
+const disableExternal = false
+const baseURL = 'http://localhost:8081'
+const recaptcha = ''
+const recaptchaKey = ''
+const signup = true
+const version = '0.1'
+const logoURL = `/img/logo.svg`
+const noAuth = false
 
 export {
   name,

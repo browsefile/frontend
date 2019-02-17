@@ -27,7 +27,7 @@ header img {
 }
 
 header img {
-  height: 2.5em;
+  height: 2.0em;
 }
 
 header>div:first-child>.action {
@@ -37,7 +37,7 @@ header>div:first-child>.action {
 header>div {
   display: flex;
   width: 100%;
-  padding: 0.5em 0.5em 0.5em 1em;
+
   align-items: center;
 }
 
@@ -55,7 +55,7 @@ header>div:last-child div {
 }
 
 header>div:first-child {
-  height: 4em;
+  height: 3em;
 }
 
 header>div:last-child {

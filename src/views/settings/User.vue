@@ -2,7 +2,7 @@
   <div>
     <form v-if="loaded" @submit="save" class="card">
       <div class="card-title">
-        <h2 v-if="user.id === 0">{{ $t('settings.newUser') }}</h2>
+        <h2 v-if="user.username.length === 0">{{ $t('settings.newUser') }}</h2>
         <h2 v-else>{{ $t('settings.user') }} {{ user.username }}</h2>
       </div>
 
@@ -75,8 +75,8 @@ export default {
   },
   watch: {
     '$route': 'fetchData',
-    'user.perm.admin': function () {
-      if (!this.user.perm.admin) return
+    'user.admin': function () {
+      if (!this.user.admin) return
       this.user.lockPassword = false
     }
   },
@@ -111,7 +111,7 @@ export default {
       event.preventDefault()
 
       try {
-        await api.remove(this.user.id)
+        await api.remove(this.user.username)
         this.$router.push({ path: '/settings/users' })
         this.$showSuccess(this.$t('settings.userDeleted'))
       } catch (e) {
@@ -133,7 +133,7 @@ export default {
         } else {
           await api.update(user)
 
-          if (user.id === this.$store.state.user.id) {
+          if (user.username === this.$store.state.user.username) {
             this.setUser({ ...deepClone(user) })
           }
 

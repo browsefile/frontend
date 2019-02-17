@@ -9,8 +9,8 @@
     import APlayer from 'aplayer/dist/APlayer.min'
     import 'aplayer/dist/APlayer.min.css'
     import {mapMutations, mapGetters, mapState} from 'vuex'
-    import * as api from '../../utils/api'
-    import * as url from '../../utils/url'
+    import url from '@/utils/url'
+    import {files as api} from '@/api'
 
     export default {
         name: 'AudioPlayer',
@@ -27,27 +27,29 @@
         },
         methods: {
             ...mapMutations([]),
-            fetch(path) {
+            async fetch(path) {
                 let _that = this
-                api.fetch(path + "?recursive=true")
-                    .then(function (req) {
-                        let itemsFiltered = req.items.filter(it => it.type == 'audio')
-                        for (let i in itemsFiltered) {
-                            itemsFiltered[i].url = url.convertToDownload(itemsFiltered[i].url)
-                        }
-                        _that.player.list.add(itemsFiltered.map(it => {
-                            return {
-                                name: it.name,
-                                url: url.convertToDownload(it.url)
-                            }
-                        }))
-                        if (_that.player.list.audios.length == 0) {
-                            _that.player.notice('Empty list')
-                        } else {
-                            _that.player.play()
-                        }
+                try {
+                    let res = await api.fetch(path + "?recursive=true")
 
-                    }).catch(_that.$showError)
+                    let itemsFiltered = res.items.filter(it => it.type == 'audio')
+                    for (let i in itemsFiltered) {
+                        itemsFiltered[i].url = url.convertToPreview(itemsFiltered[i].url)
+                    }
+                    _that.player.list.add(itemsFiltered.map(it => {
+                        return {
+                            name: it.name,
+                            url: url.convertToPreview(it.url)
+                        }
+                    }))
+                    if (_that.player.list.audios.length == 0) {
+                        _that.player.notice('Empty list')
+                    } else {
+                        _that.player.play()
+                    }
+                } catch (e) {
+                    this.$showError(e)
+                }
             },
             playTrack(tracks) {
                 this.init()

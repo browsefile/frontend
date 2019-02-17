@@ -29,7 +29,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { files as api } from '@/api'
-import url from '@/utils/url'
+import * as url from "@/utils/url"
 
 export default {
   name: 'new-file',
