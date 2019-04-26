@@ -1,54 +1,34 @@
 <template>
     <div class="card floating" id="share">
         <div class="card-title">
-            <h2>{{ $t('buttons.share') }}</h2>
+            <h2>{{ $t('buttons.share') + ' ' + item.path}}</h2>
         </div>
 
         <div class="card-content">
             <ul>
-                <li v-if="!hasPermanent">
-                    <a @click="getPermalink" :aria-label="$t('buttons.permalink')">{{ $t('buttons.permalink') }}</a>
-                </li>
-
-                <li v-for="link in item" :key="link.hash">
-                    <a :href="buildLink(link.hash)" target="_blank">
-                        <template v-if="link.expire !== 0">{{ humanTime(link.expire) }}</template>
-                        <template v-else>{{ $t('permanent') }}</template>
-                    </a>
-
-                    <button class="action"
-                            @click="deleteLink($event, link)"
-                            :aria-label="$t('buttons.delete')"
-                            :title="$t('buttons.delete')"><i class="material-icons">delete</i></button>
-
-                    <button class="action copy-clipboard"
-                            :data-clipboard-text="buildLink(link.hash)"
-                            :aria-label="$t('buttons.copyToClipboard')"
-                            :title="$t('buttons.copyToClipboard')"><i class="material-icons">content_paste</i></button>
-                </li>
-
                 <li>
-                    <input v-focus
-                           type="number"
-                           max="2147483647"
-                           min="0"
-                           @keyup.enter="submit"
-                           v-model.trim="time">
-                    <select v-model="unit" :aria-label="$t('time.unit')">
-                        <option value="seconds">{{ $t('time.seconds') }}</option>
-                        <option value="minutes">{{ $t('time.minutes') }}</option>
-                        <option value="hours">{{ $t('time.hours') }}</option>
-                        <option value="days">{{ $t('time.days') }}</option>
-                    </select>
-                    <button class="action"
-                            @click="submit"
-                            :aria-label="$t('buttons.create')"
-                            :title="$t('buttons.create')"><i class="material-icons">add</i></button>
+                    <input type="checkbox" id="allowExternal" v-model="item.allowExternal">
+                    <label for="allowExternal">{{ $t('buttons.allowExternal') }}</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="allowLocal" v-model="item.allowLocal">
+                    <label for="allowLocal">{{ $t('buttons.allowLocal') }}</label>
+                </li>
+                <br>
+                <label >{{ $t('buttons.allowedUsers')}}</label>
+                <li v-for="u in allowed">
+                    <input type="checkbox" :id="u.user" v-model="u.allowed">
+                    <label :for="u">{{ u.user }}</label>
                 </li>
             </ul>
         </div>
 
         <div class="card-action">
+            <button class="button button--flat"
+                    @click="saveShare()"
+                    :aria-label="$t('buttons.save')"
+                    :title="$t('buttons.save')">{{ $t('buttons.save') }}
+            </button>
             <button class="button button--flat"
                     @click="$store.commit('closeHovers')"
                     :aria-label="$t('buttons.close')"
@@ -69,9 +49,7 @@
         name: 'share',
         data: function () {
             return {
-                time: '',
-                unit: 'hours',
-                hasPermanent: false,
+                allowed: [],
                 item: {},
                 clip: null
             }
@@ -81,7 +59,7 @@
             ...mapGetters(['isListing']),
             url() {
                 if (!this.isListing) {
-                    return this.$route.path + '?share=my'
+                    return this.$route.path
                 }
 
                 if (this.selectedCount === 0 || this.selectedCount > 1) {
@@ -89,16 +67,28 @@
                     return
                 }
 
-                return this.req.items[this.selected[0]].url + '?share=my'
+                return this.req.items[this.selected[0]].url
             }
         },
         async beforeMount() {
             try {
-                let item = await api.get(this.url)
-                if (!item) {
-                    item = {"allowExternal": false, "allowLocal": true, "allowedUsers": []}
+                let urlPath = this.url
+                let item = await api.get(urlPath, true)
+
+                if (!item.path) {
+                    item.path = urlPath
                 }
-                this.item = item
+                if (!item.allowedUsers) {
+                    item.allowedUsers = []
+                }
+                item.allowedUsers.forEach(itm => {
+                    this.allowed.push({
+                        'user': itm,
+                        'allowed': true
+                    })
+                })
+
+                this.item = item;
 
             } catch (e) {
                 this.$showError(e)
@@ -114,42 +104,14 @@
             this.clip.destroy()
         },
         methods: {
-            submit: async function () {
-                if (!this.time) return
-
+            saveShare: async function () {
                 try {
-                    const res = await api.create(this.url, this.time, this.unit)
-                    this.item.push(res)
-                    this.sort()
+                    this.item.AllowedUsers = this.allowed.map(usr => usr.user)
+                    const res = await api.create(this.item)
+                    this.$store.commit('closeHovers')
                 } catch (e) {
                     this.$showError(e)
                 }
-            },
-            getPermalink: async function () {
-                try {
-                    const res = await api.create(this.url)
-                    this.item.push(res)
-                    this.sort()
-                    this.hasPermanent = true
-                } catch (e) {
-                    this.$showError(e)
-                }
-            },
-            deleteLink: async function (event, link) {
-                event.preventDefault()
-                try {
-                    await api.remove(link.hash)
-                    if (link.expire === 0) this.hasPermanent = false
-                    this.item = this.item.filter(item => item.hash !== link.hash)
-                } catch (e) {
-                    this.$showError(e)
-                }
-            },
-            humanTime(time) {
-                return moment(time * 1000).fromNow()
-            },
-            buildLink(hash) {
-                return `${window.location.origin}${baseURL}/share/${hash}`
             }
         }
     }

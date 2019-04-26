@@ -118,6 +118,7 @@
                 'isLogged'
             ]),
             ...mapState([
+                'selected',
                 'req',
                 'user',
                 'loading',
@@ -145,7 +146,7 @@
                 return this.isFiles && this.selectedCount === 1 && !this.isShare
             },
             showShareButton() {
-                return this.isFiles && this.selectedCount === 1 && !this.isShare
+                return this.isFiles && this.selectedCount === 1 && !this.isShare && this.req.items[this.selected[0]].isDir
             },
             showMoveButton() {
                 return this.isFiles && this.selectedCount > 0 && !this.isShare

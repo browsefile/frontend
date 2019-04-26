@@ -2,15 +2,22 @@ import {fetchURL, fetchJSON, removePrefix} from './utils'
 import {baseURL} from '@/utils/constants'
 import store from '@/store'
 
-export async function get(url) {
+export async function get(url, isMeta) {
     url = removePrefix(url)
-    let data = await fetchJSON(`/api/shares/resource${url}`)
-    data.url = `/shares${url}`
-    if (data.isDir) {
-        data.items = data.items.map((item, index) => {
-            item.index = index
-            return item
-        })
+    url = '/api/shares/resource' + url
+    if (isMeta) {
+        url += '?share=my-meta'
+    }
+
+    let data = await fetchJSON(url)
+    if (!isMeta) {
+        data.url = `/shares${url}`
+        if (data.isDir) {
+            data.items = data.items.map((item, index) => {
+                item.index = index
+                return item
+            })
+        }
     }
 
     return data
@@ -19,15 +26,15 @@ export async function get(url) {
 export function download(format, ...files) {
     let url = `${baseURL}/api/shares/download`
 
-        let arg = ''
+    let arg = ''
 
-        for (let file of files) {
-            arg += removePrefix(file) + ','
-        }
+    for (let file of files) {
+        arg += removePrefix(file) + ','
+    }
 
-        arg = arg.substring(0, arg.length - 1)
-        arg = encodeURIComponent(arg)
-        url += `/?files=${arg}&`
+    arg = arg.substring(0, arg.length - 1)
+    arg = encodeURIComponent(arg)
+    url += `/?files=${arg}&`
 
     if (format !== null) {
         url += `algo=${format}&`
@@ -49,14 +56,13 @@ export async function remove(url) {
     }
 }
 
-export async function create(url) {
-    url = removePrefix(url)
-    url = `/api${url}`
-    if (expires !== '') {
-        url += `?expires=${expires}&unit=${unit}`
-    }
+export async function create(item) {
+    let url = removePrefix(item.path)
+    url = '/api/shares/resource' + url + '?share=my-meta'
+
 
     return fetchJSON(url, {
-        method: 'POST'
+        method: 'POST',
+        body: JSON.stringify(item)
     })
 }

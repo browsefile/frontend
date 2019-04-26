@@ -81,7 +81,7 @@ export function download(format, ...files) {
 
 export async function post(url, content = '', overwrite = false, onupload) {
     url = removePrefix(url)
-    console.log(url)
+
     return new Promise((resolve, reject) => {
         let request = new XMLHttpRequest()
         request.open('POST', `${baseURL}/api/resource${url}?override=${overwrite}`, true)
@@ -117,7 +117,7 @@ export async function post(url, content = '', overwrite = false, onupload) {
 
 function moveCopy(items, copy = false) {
     let promises = []
-    console.log(url)
+
     for (let item of items) {
         const from = removePrefix(item.from)
         const to = encodeURIComponent(removePrefix(item.to))

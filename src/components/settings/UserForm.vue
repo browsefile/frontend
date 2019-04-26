@@ -34,13 +34,11 @@
 
 <script>
 import Languages from './Languages'
-import Rules from './Rules'
 
 export default {
   name: 'user',
   components: {
-    Languages,
-    Rules
+    Languages
   },
   props: [ 'user', 'isNew', 'isDefault' ],
   computed: {

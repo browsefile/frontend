@@ -27,7 +27,7 @@ export async function create (user) {
 }
 
 export async function update (user, which = 'all') {
-  const res = await fetchURL(`/api/users/${user.id}`, {
+  const res = await fetchURL(`/api/users/${user.username}`, {
     method: 'PUT',
     body: JSON.stringify({
       what: 'user',

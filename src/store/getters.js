@@ -4,7 +4,7 @@ const getters = {
     isListing: (state, getters) => getters.isFiles && state.req.isDir,
     isEditor: (state, getters) => getters.isFiles && (state.req.type === 'text' || state.req.type === 'textImmutable'),
     selectedCount: state => state.selected.length,
-    isShare: state => state.isShare
+    isShare: state => state.isShare,
 }
 
 export default getters

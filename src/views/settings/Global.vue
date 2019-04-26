@@ -69,13 +69,11 @@
 import { mapState } from 'vuex'
 import { settings as api } from '@/api'
 import UserForm from '@/components/settings/UserForm'
-import Rules from '@/components/settings/Rules'
 
 export default {
   name: 'settings',
   components: {
-    UserForm,
-    Rules
+    UserForm
   },
   data: function () {
     return {
