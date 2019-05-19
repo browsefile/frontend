@@ -17,7 +17,7 @@
         <tr v-for="user in users" :key="user.username">
           <td>{{ user.username }}</td>
           <td><i v-if="user.admin" class="material-icons">done</i><i v-else class="material-icons">close</i></td>
-          <td>{{ user.scope }}</td>
+          <td>{{ user.homePath }}</td>
           <td class="small">
             <router-link :to="'/settings/users/' + user.username"><i class="material-icons">mode_edit</i></router-link>
           </td>

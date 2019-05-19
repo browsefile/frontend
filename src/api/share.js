@@ -47,7 +47,10 @@ export function download(format, ...files) {
 
 
 export async function remove(url) {
-    const res = await fetchURL(`/api${url}`, {
+    url = removePrefix(url)
+    url = '/api/shares/resource' + url
+
+    const res = await fetchURL(url, {
         method: 'DELETE'
     })
 

@@ -167,7 +167,6 @@
                         res = await files.fetch(url)
 
                     }
-                    console.log(url)
                     this.$store.commit('updateRequest', res)
 
                     document.title = res.name
@@ -237,8 +236,9 @@
                 if (top < 64) {
                     top = 64
                 }
-
-                document.querySelector('#listing.list .item.header').style.top = top + 'px'
+                let lstEl = document.querySelector('#listing.list .item.header')
+                if (lstEl && lstEl.style)
+                    lstEl.style.top = top + 'px'
             },
             openSidebar() {
                 this.$store.commit('showHover', 'sidebar')

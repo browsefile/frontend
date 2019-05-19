@@ -12,7 +12,7 @@
 
     <p>
       <label for="scope">{{ $t('settings.scope') }}</label>
-      <input class="input input--block" type="text" v-model="user.scope" id="scope">
+      <input class="input input--block" type="text" v-model="user.homePath" id="scope">
     </p>
 
     <p>
@@ -24,11 +24,6 @@
       <input type="checkbox" :disabled="user.admin" v-model="user.lockPassword"> {{ $t('settings.lockPassword') }}
     </p>
 
-    <div v-if="!isDefault">
-      <h3>{{ $t('settings.rules') }}</h3>
-      <p class="small">{{ $t('settings.rulesHelp') }}</p>
-      <rules :rules.sync="user.rules" />
-    </div>
   </div>
 </template>
 

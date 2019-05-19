@@ -15,7 +15,7 @@
                     <label for="allowLocal">{{ $t('buttons.allowLocal') }}</label>
                 </li>
                 <br>
-                <label >{{ $t('buttons.allowedUsers')}}</label>
+                <label>{{ $t('buttons.allowedUsers')}}</label>
                 <li v-for="u in allowed">
                     <input type="checkbox" :id="u.user" v-model="u.allowed">
                     <label :for="u">{{ u.user }}</label>
@@ -42,7 +42,6 @@
     import {mapState, mapGetters} from 'vuex'
     import {share as api} from '@/api'
     import {baseURL} from '@/utils/constants'
-    import moment from 'moment'
     import Clipboard from 'clipboard'
 
     export default {
@@ -58,6 +57,9 @@
             ...mapState(['req', 'selected', 'selectedCount']),
             ...mapGetters(['isListing']),
             url() {
+                if (this.$store.state.showMessage) {
+                    return this.$store.state.showMessage
+                }
                 if (!this.isListing) {
                     return this.$route.path
                 }
@@ -72,23 +74,19 @@
         },
         async beforeMount() {
             try {
-                let urlPath = this.url
-                let item = await api.get(urlPath, true)
+                let urlPath = this.$store.state.showMessage ? this.$store.state.showMessage : this.url
+                let itm = await api.get(urlPath, true)
+                //console.dir(itm)
 
-                if (!item.path) {
-                    item.path = urlPath
+                if (!itm.path) {
+                    itm.path = urlPath
                 }
-                if (!item.allowedUsers) {
-                    item.allowedUsers = []
+                if (!itm.allowedUsers) {
+                    itm.allowedUsers = []
                 }
-                item.allowedUsers.forEach(itm => {
-                    this.allowed.push({
-                        'user': itm,
-                        'allowed': true
-                    })
-                })
 
-                this.item = item;
+                this.filterMounted(itm)
+                this.item = itm;
 
             } catch (e) {
                 this.$showError(e)
@@ -104,10 +102,24 @@
             this.clip.destroy()
         },
         methods: {
+            filterMounted: function (itm) {
+
+                if (itm.allowedUsers) {
+                    this.allowed = []
+                    itm.allowedUsers.forEach(itm => {
+                        this.allowed.push({
+                            'user': itm,
+                            'allowed': true
+                        })
+                    })
+                }
+            },
             saveShare: async function () {
                 try {
-                    this.item.AllowedUsers = this.allowed.map(usr => usr.user)
-                    const res = await api.create(this.item)
+                    this.item.AllowedUsers = this.allowed.filter(usr => usr.allowed).map(usr => usr.user)
+
+                    this.item = await api.create(this.item)
+                    this.filterMounted(this.item)
                     this.$store.commit('closeHovers')
                 } catch (e) {
                     this.$showError(e)

@@ -1,18 +1,20 @@
 <template>
     <nav :class="{active}">
+        <router-link class="action" :to="sharesPath" :aria-label="$t('sidebar.share')"
+                     :title="$t('sidebar.share')">
+            <i class="material-icons">folder_shared</i>
+            <span>{{ $t('sidebar.share') }}</span>
+        </router-link>
+
+
         <template v-if="isLogged">
             <router-link class="action" :to="filesPath" :aria-label="$t('sidebar.myFiles')"
                          :title="$t('sidebar.myFiles')">
                 <i class="material-icons">folder</i>
                 <span>{{ $t('sidebar.myFiles') }}</span>
             </router-link>
-            <router-link class="action" :to="sharesPath" :aria-label="$t('sidebar.share')"
-                         :title="$t('sidebar.share')">
-                <i class="material-icons">folder_shared</i>
-                <span>{{ $t('sidebar.share') }}</span>
-            </router-link>
 
-            <div v-if="user.allowEdit">
+            <div v-if="user.allowEdit && !isShare">
                 <button @click="$store.commit('showHover', 'newDir')" class="action"
                         :aria-label="$t('sidebar.newFolder')" :title="$t('sidebar.newFolder')">
                     <i class="material-icons">create_new_folder</i>
@@ -72,7 +74,7 @@
     export default {
         name: 'sidebar',
         computed: {
-            ...mapState(['user']),
+            ...mapState(['user', 'isShare']),
             ...mapGetters(['isLogged']),
             sharesPath() {
                 return {path: '/shares/', query: {share: "list"}}

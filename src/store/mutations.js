@@ -11,7 +11,6 @@ const mutations = {
             state.show = value
             return
         }
-
         state.show = value.prompt
         state.showMessage = value.message
         state.showConfirm = value.confirm

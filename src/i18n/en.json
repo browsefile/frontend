@@ -120,6 +120,13 @@
     "newArchetype": "Create a new post based on an archetype. Your file will be created on content folder."
   },
   "settings": {
+    "myShares": "My shares",
+    "share": {
+      "path": "Path",
+      "ausers": "Allowed users",
+      "alocal": "Allow all local",
+      "aexternal": "Allow all non authorized"
+    },
     "instanceName": "Instance name",
     "brandingDirectoryPath": "Branding directory path",
     "documentation": "documentation",

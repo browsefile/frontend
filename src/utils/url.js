@@ -24,7 +24,7 @@ export function convertToPreview(url, isShare, isPreview, auth) {
     if (isShare) {
         res = baseURL + url.replace('shares', 'api/shares/download')
     } else res = baseURL + url.replace('files', 'api/download')
-    return res + sym + this.encodeUrlData(parm)
+    return res + sym + encodeUrlData(parm)
 }
 
 export function encodeUrlData(data) {

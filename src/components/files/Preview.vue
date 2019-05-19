@@ -177,8 +177,9 @@
                 } else if (this.req.items) {
                     res = this.req
                 } else {
+                    let url = this.$route.path
+
                     if (this.isShare) {
-                        let url = this.$route.path
 
                         if (url === '') url = '/'
                         if (url[0] !== '/') url = '/' + url
@@ -294,8 +295,7 @@
                 return items.filter(file => t.filter(ti => file.type == ti).length > 0)
             },
             back() {
-                let uri = url.removeLastDir(this.$route.path) + '/'
-                this.$router.push({path: uri})
+                this.$router.go(-1)
             },
             prev() {
                 this.$router.push({path: this.previousLink})

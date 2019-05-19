@@ -20,7 +20,6 @@
         },
         methods: {
             download: function () {
-                console.log(this.selectedCount)
                 if (this.selectedCount === 0) {
                     if (this.isShare) {
                         share.download('zip', this.$route.path)
