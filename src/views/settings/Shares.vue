@@ -19,13 +19,13 @@
                         <template v-for="u in shr.allowedUsers">
                             {{u}},
                         </template>
-                    <td>{{ shr.allowLocal }}</td>
-                    <td>{{ shr.allowExternal }}</td>
+                    <td><i v-if="shr.allowLocal" class="material-icons">done</i><i v-else class="material-icons">close</i></td>
+                    <td><i v-if="shr.allowExternal" class="material-icons">done</i><i v-else class="material-icons">close</i></td>
                     <td>
-                        <share-button :sharePath="shr.path"></share-button>
+                        <share-button :share-item="shr"></share-button>
                     </td>
                     <td>
-                        <delete-button :sharePath="shr.path"></delete-button>
+                        <delete-button :share-item="shr"></delete-button>
                     </td>
 
                 </tr>

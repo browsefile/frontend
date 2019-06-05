@@ -40,25 +40,28 @@
 
 <script>
     import {mapState, mapGetters} from 'vuex'
+    import {users as u} from '@/api'
     import {share as api} from '@/api'
     import {baseURL} from '@/utils/constants'
     import Clipboard from 'clipboard'
 
     export default {
         name: 'share',
+
         data: function () {
             return {
+                allUsers: [],
                 allowed: [],
                 item: {},
                 clip: null
             }
         },
         computed: {
-            ...mapState(['req', 'selected', 'selectedCount']),
+            ...mapState(['user', 'req', 'selected', 'selectedCount']),
             ...mapGetters(['isListing']),
             url() {
                 if (this.$store.state.showMessage) {
-                    return this.$store.state.showMessage
+                    return this.$store.state.showMessage.path
                 }
                 if (!this.isListing) {
                     return this.$route.path
@@ -69,24 +72,24 @@
                     return
                 }
 
-                return this.req.items[this.selected[0]].url
+                return this.req.items[this.selected[0]].path
             }
         },
         async beforeMount() {
             try {
-                let urlPath = this.$store.state.showMessage ? this.$store.state.showMessage : this.url
-                let itm = await api.get(urlPath, true)
-                //console.dir(itm)
-
-                if (!itm.path) {
-                    itm.path = urlPath
+                let uPath = this.url
+                if (this.$store.state.showMessage) {
+                    uPath = this.$store.state.showMessage.url
+                    try {
+                        this.allUsers = await u.getAll()
+                    } catch (e) {
+                        this.$showError(e)
+                    }
                 }
-                if (!itm.allowedUsers) {
-                    itm.allowedUsers = []
-                }
 
-                this.filterMounted(itm)
-                this.item = itm;
+                this.item = this.$store.state.showMessage;
+
+                this.filterMounted()
 
             } catch (e) {
                 this.$showError(e)
@@ -101,18 +104,23 @@
         beforeDestroy() {
             this.clip.destroy()
         },
-        methods: {
-            filterMounted: function (itm) {
 
-                if (itm.allowedUsers) {
-                    this.allowed = []
-                    itm.allowedUsers.forEach(itm => {
-                        this.allowed.push({
-                            'user': itm,
-                            'allowed': true
-                        })
+        methods: {
+            filterMounted: function (current) {
+                this.allowed = []
+                this.allUsers.forEach(itm => {
+                    if (this.user.username == itm.username) {
+                        return
+                    }
+                    this.allowed.push({
+                        'user': itm.username,
+                        'allowed': this.isAllowed(itm)
                     })
-                }
+                })
+            },
+            isAllowed: function (itm) {
+                return this.item.allowedUsers.filter(name => name === itm.username).length > 0
+
             },
             saveShare: async function () {
                 try {
@@ -121,6 +129,7 @@
                     this.item = await api.create(this.item)
                     this.filterMounted(this.item)
                     this.$store.commit('closeHovers')
+                    this.$router.go()
                 } catch (e) {
                     this.$showError(e)
                 }

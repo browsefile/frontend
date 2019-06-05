@@ -24,6 +24,16 @@
       <input type="checkbox" :disabled="user.admin" v-model="user.lockPassword"> {{ $t('settings.lockPassword') }}
     </p>
 
+    <p>
+      <label for="scope">{{ $t('settings.uid') }}</label>
+      <input class="input input--block" type="number" v-model="user.uid" id="uid">
+    </p>
+    <p>
+      <label for="scope">{{ $t('settings.gid') }}</label>
+      <input class="input input--block" type="number" v-model="user.gid" id="gid">
+    </p>
+
+
   </div>
 </template>
 

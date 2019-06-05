@@ -8,10 +8,10 @@
 <script>
     export default {
         name: 'share-button',
-        props: ['sharePath'],
+        props: ['shareItem'],
         methods: {
             show() {
-                this.$store.commit('showHover', {prompt: 'share', message: this.sharePath})
+                this.$store.commit('showHover', {prompt: 'share', message: this.shareItem})
             }
         }
     }

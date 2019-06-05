@@ -6,7 +6,7 @@ import Files from '@/views/Files'
 import Users from '@/views/settings/Users'
 import User from '@/views/settings/User'
 import Settings from '@/views/Settings'
-import GlobalSettings from '@/views/settings/Global'
+import SharesSettings from '@/views/settings/Shares'
 import ProfileSettings from '@/views/settings/Profile'
 import Error403 from '@/views/errors/403'
 import Error404 from '@/views/errors/404'
@@ -70,9 +70,9 @@ const router = new Router({
                             component: ProfileSettings
                         },
                         {
-                            path: '/settings/global',
-                            name: 'Global Settings',
-                            component: GlobalSettings,
+                            path: '/settings/shares',
+                            name: 'Shares Settings',
+                            component: SharesSettings,
                             meta: {
                                 requiresAdmin: true
                             }

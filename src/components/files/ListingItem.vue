@@ -52,7 +52,7 @@
         },
         props: ['name', 'isDir', 'url', 'type', 'size', 'modified', 'index'],
         computed: {
-            ...mapState(['selected', 'req']),
+            ...mapState(['selected', 'req','jwt']),
             ...mapGetters(['selectedCount', 'isShare']),
             isSelected() {
                 return (this.selected.indexOf(this.index) !== -1)
@@ -84,7 +84,7 @@
                 return this.url.split('=')[1]
             },
             getThumbNailURL: function () {
-                return url.convertToPreview(this.url, this.isShare, true);
+                return url.convertToPreview(this.url, this.isShare, true, this.jwt)
             },
             humanSize: function () {
                 return filesize(this.size)
