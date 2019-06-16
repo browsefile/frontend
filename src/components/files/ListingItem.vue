@@ -40,7 +40,6 @@
     import moment from 'moment'
     import * as files from "../../api/files";
     import * as url from "@/utils/url"
-    import {playerEventBus} from '@/main'
 
     export default {
         name: 'item',
@@ -84,7 +83,7 @@
                 return this.url.split('=')[1]
             },
             getThumbNailURL: function () {
-                return url.convertToPreview(this.url, this.isShare, true, this.jwt)
+                return url.convertToPreview(this.url, true, this.jwt)
             },
             humanSize: function () {
                 return filesize(this.size)
@@ -182,9 +181,9 @@
 
                 if (this.type == 'audio') {
                     event.preventDefault()
-                    playerEventBus.$emit('playTrack', [{
+                    this.$root.$emit('playTrack', [{
                         name: this.name,
-                        url: url.convertToPreview(this.url)
+                        url: this.url
                     }])
                 } else if (this.isShare) {
                     let p = this.url.split("?")

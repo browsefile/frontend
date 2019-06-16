@@ -34,7 +34,7 @@
                     <move-button v-show="showMoveButton"></move-button>
                     <delete-button v-show="showDeleteButton"></delete-button>
                 </div>
-
+                <play-audio-folder v-show="isListing"></play-audio-folder>
                 <!-- This buttons are shown on a dropdown on mobile phones -->
                 <div id="dropdown" :class="{ active: showMore }">
                     <div v-if="!isListing || !isMobile">
@@ -74,6 +74,7 @@
     import MoveButton from './buttons/Move'
     import CopyButton from './buttons/Copy'
     import ShareButton from './buttons/Share'
+    import PlayAudioFolder from './buttons/PlayAudioFolder'
     import {mapGetters, mapState} from 'vuex'
     import {logoURL} from '@/utils/constants'
     import * as api from '@/api'
@@ -91,7 +92,8 @@
             CopyButton,
             UploadButton,
             SwitchButton,
-            MoveButton
+            MoveButton,
+            PlayAudioFolder
         },
         data: function () {
             return {
@@ -159,6 +161,9 @@
             },
             showOverlay() {
                 return this.showMore
+            },
+            isListing() {
+                return this.req.kind === 'listing'
             }
         },
         methods: {

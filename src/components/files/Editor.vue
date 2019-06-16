@@ -59,7 +59,7 @@
             window.removeEventListener('keydown', this.keyEvent)
             document.getElementById('save-button').removeEventListener('click', this.save)
         },
-        mounted: function () {
+        mounted () {
             if (this.req.content === undefined || this.req.content === null) {
                 this.req.content = ''
             }

@@ -5,12 +5,11 @@
 </template>
 
 <script>
-    import {playerEventBus} from '../../main'
     import APlayer from 'aplayer/dist/APlayer.min'
     import 'aplayer/dist/APlayer.min.css'
     import {mapMutations, mapGetters, mapState} from 'vuex'
-    import url from '@/utils/url'
-    import {files as api} from '@/api'
+    import * as url_parser from '../../utils/url'
+    import {files as api, share as shares} from '@/api'
 
     export default {
         name: 'AudioPlayer',
@@ -21,7 +20,7 @@
         },
         props: [],
         computed: {
-            ...mapState(['req']),
+            ...mapState(['req', 'jwt', 'isShare']),
             ...mapGetters([])
 
         },
@@ -30,16 +29,27 @@
             async fetch(path) {
                 let _that = this
                 try {
-                    let res = await api.fetch(path + "?recursive=true")
+
+                    if (path.includes('?')) {
+                        path + "&recursive=true"
+                    } else {
+                        path + "?recursive=true"
+                    }
+                    let res
+                    if (this.isShare) {
+                        res = await shares.get(path, true)
+                    } else {
+                        res = await api.fetch(path)
+                    }
 
                     let itemsFiltered = res.items.filter(it => it.type == 'audio')
                     for (let i in itemsFiltered) {
-                        itemsFiltered[i].url = url.convertToPreview(itemsFiltered[i].url)
+                        itemsFiltered[i].url = url_parser.convertToPreview(itemsFiltered[i].url, false, this.jwt)
                     }
                     _that.player.list.add(itemsFiltered.map(it => {
                         return {
                             name: it.name,
-                            url: url.convertToPreview(it.url)
+                            url: it.url
                         }
                     }))
                     if (_that.player.list.audios.length == 0) {
@@ -54,9 +64,10 @@
             playTrack(tracks) {
                 this.init()
                 this.player.list.clear()
-                //
+
                 for (let i in  tracks) {
                     let itm = tracks[i]
+                    itm.url = url_parser.convertToPreview(itm.url, false, this.jwt)
                     this.player.list.add(itm)
                 }
                 if (this.player.list.audios.length == 0) {
@@ -83,15 +94,15 @@
                 }
             }
         }, beforeDestroy() {
-            playerEventBus.$off('playTrack', this.playTrack)
-            playerEventBus.$off('playFolders', this.playFolders)
+            this.$root.$off('playTrack', this.playTrack)
+            this.$root.$off('playFolders', this.playFolders)
             if (this.player) {
                 this.player.destroy()
             }
         },
         mounted() {
-            playerEventBus.$on('playTrack', this.playTrack)
-            playerEventBus.$on('playFolders', this.playFolders)
+            this.$root.$on('playTrack', this.playTrack)
+            this.$root.$on('playFolders', this.playFolders)
         }
 
     }

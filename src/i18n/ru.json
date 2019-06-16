@@ -120,6 +120,14 @@
     "newArchetype": "Создайте новую запись на основе архетипа. Файл будет создан в каталоге."
   },
   "settings": {
+    "myShares": "Открытые файлы",
+    "share": {
+      "path": "Путь",
+      "ausers": "Разрешенные пользователи",
+      "alocal": "Разрешить всем зарегистрированым",
+      "aexternal": "Разрешить всем даже внешним"
+    },
+
     "instanceName": "Instance name",
     "brandingDirectoryPath": "Branding directory path",
     "documentation": "documentation",
@@ -194,7 +202,8 @@
     "settings": "Настройки",
     "siteSettings": "Настройки сайта",
     "hugoNew": "Hugo New",
-    "preview": "Предпросмотр"
+    "preview": "Предпросмотр",
+    "share":"Открытые файлы других"
   },
   "search": {
     "images": "Изображения",

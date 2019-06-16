@@ -9,7 +9,7 @@ export function removeLastDir(url) {
     return arr.join('/')
 }
 
-export function convertToPreview(url, isShare, isPreview, auth, jwt) {
+export function convertToPreview(url, isPreview, auth) {
     let res
     let parm = {
         'inline': true
@@ -20,13 +20,12 @@ export function convertToPreview(url, isShare, isPreview, auth, jwt) {
     if (isPreview) {
         parm.previewType = 'thumb'
     }
-    if (jwt) {
-        parm.auth = jwt
-    }
-    let sym = isShare ? '&' : '?';
-    if (isShare) {
+    let sym = url.includes('?') ? '&' : '?';
+    if (url.startsWith('/shares')) {
         res = baseURL + url.replace('shares', 'api/shares/download')
-    } else res = baseURL + url.replace('files', 'api/download')
+    } else if (url.startsWith('/files')) {
+        res = baseURL + url.replace('files', 'api/download')
+    }
     return res + sym + encodeUrlData(parm)
 }
 

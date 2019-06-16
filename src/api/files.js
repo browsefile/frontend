@@ -5,13 +5,15 @@ import store from '@/store'
 export async function fetch(url) {
     url = removePrefix(url)
     const res = await fetchURL(`/api/resource${url}`, {})
-
     if (res.status === 200) {
         let data = await res.json()
         data.url = `/files${url}`
 
         if (data.isDir) {
             if (!data.url.endsWith('/')) data.url += '/'
+            if (!data.items) {
+                data.items = []
+            }
             data.items = data.items.map((item, index) => {
                 item.index = index
                 item.url = `${data.url}${encodeURIComponent(item.name)}`

@@ -1,6 +1,7 @@
 {
   "permanent": "Permanent",
   "buttons": {
+    "afolder":"Play music",
     "shell": "Toggle shell",
     "cancel": "Cancel",
     "close": "Close",
@@ -124,8 +125,8 @@
     "share": {
       "path": "Path",
       "ausers": "Allowed users",
-      "alocal": "Allow all local",
-      "aexternal": "Allow all non authorized"
+      "alocal": "Allow all registered",
+      "aexternal": "Allow all non authorized and authorized"
     },
     "instanceName": "Instance name",
     "brandingDirectoryPath": "Branding directory path",
@@ -202,7 +203,7 @@
     "siteSettings": "Site Settings",
     "hugoNew": "Hugo New",
     "preview": "Preview",
-    "share": "Other users share "
+    "share": "Other users share"
   },
   "search": {
     "images": "Images",

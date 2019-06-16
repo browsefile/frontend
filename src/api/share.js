@@ -6,7 +6,11 @@ export async function get(url, isMeta) {
     url = removePrefix(url)
     url = '/api/shares/resource' + url
     if (isMeta) {
-        url += '?share=my-meta'
+        let sym = '?'
+        if (url.includes('?')) {
+            sym = '&'
+        }
+        url += sym + 'share=my-meta';
     }
 
     let data = await fetchJSON(url)

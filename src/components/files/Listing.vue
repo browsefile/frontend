@@ -181,7 +181,7 @@
                 return 'arrow_upward'
             }
         },
-        mounted: function () {
+        mounted () {
             // Check the columns size for the first time.
             this.resizeEvent()
 

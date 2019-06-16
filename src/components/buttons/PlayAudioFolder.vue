@@ -8,8 +8,6 @@
 
 <script>
     import {mapGetters, mapState} from 'vuex'
-    import {playerEventBus} from '../../main'
-    import * as url from '@/utils/url'
 
     export default {
         name: 'play-audio-folder',
@@ -35,15 +33,14 @@
                             if (!sel.isDir && (sel.type == 'audio' || sel.type == 'video')) {
                                 playList.push({
                                     name: sel.name,
-                                    url: url.convertToPreview(sel.url)
+                                    url: sel.url
                                 })
                             }
                         }
                     }
-
-                    playerEventBus.$emit('playTrack', playList)
+                    this.$root.$emit('playTrack', playList)
                 } else {
-                    playerEventBus.$emit('playFolders', playList)
+                    this.$root.$emit('playFolders', playList)
                 }
             }
         }
