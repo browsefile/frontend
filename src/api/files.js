@@ -4,21 +4,24 @@ import store from '@/store'
 
 export async function fetch(url) {
     url = removePrefix(url)
+
     const res = await fetchURL(`/api/resource${url}`, {})
     if (res.status === 200) {
         let data = await res.json()
         data.url = `/files${url}`
 
         if (data.isDir) {
+            let urlArr = data.url.split('/?')
+            data.url = urlArr[0]
+
             if (!data.url.endsWith('/')) data.url += '/'
             if (!data.items) {
                 data.items = []
             }
             data.items = data.items.map((item, index) => {
                 item.index = index
-                item.url = `${data.url}${encodeURIComponent(item.name)}`
 
-                if (item.isDir) {
+                if (item.isDir && !item.url.endsWith('/')) {
                     item.url += '/'
                 }
 

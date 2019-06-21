@@ -111,7 +111,7 @@
             }
         },
         computed: {
-            ...mapState(['req', 'selected', 'user', 'isShare']),
+            ...mapState(['req', 'selected', 'user']),
             nameSorted() {
                 return (this.req.sort === 'name')
             },

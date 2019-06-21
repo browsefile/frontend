@@ -31,27 +31,29 @@
                 try {
 
                     if (path.includes('?')) {
-                        path + "&recursive=true"
+                        path += '&recursive=true'
                     } else {
-                        path + "?recursive=true"
+                        path += "?recursive=true"
                     }
+
                     let res
                     if (this.isShare) {
                         res = await shares.get(path, true)
                     } else {
                         res = await api.fetch(path)
                     }
-
                     let itemsFiltered = res.items.filter(it => it.type == 'audio')
                     for (let i in itemsFiltered) {
                         itemsFiltered[i].url = url_parser.convertToPreview(itemsFiltered[i].url, false, this.jwt)
                     }
-                    _that.player.list.add(itemsFiltered.map(it => {
-                        return {
-                            name: it.name,
-                            url: it.url
-                        }
-                    }))
+
+                    if (itemsFiltered.length > 0)
+                        _that.player.list.add(itemsFiltered.map(it => {
+                            return {
+                                name: it.name,
+                                url: it.url
+                            }
+                        }))
                     if (_that.player.list.audios.length == 0) {
                         _that.player.notice('Empty list')
                     } else {
