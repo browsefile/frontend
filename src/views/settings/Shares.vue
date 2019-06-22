@@ -25,7 +25,7 @@
                         <share-button :share-item="shr"></share-button>
                     </td>
                     <td>
-                        <delete-button :share-item="shr"></delete-button>
+                        <delete-button :share-item="shr.path"></delete-button>
                     </td>
 
                 </tr>

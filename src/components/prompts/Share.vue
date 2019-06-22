@@ -72,24 +72,34 @@
                     return
                 }
 
-                return this.req.items[this.selected[0]].path
+                return this.req.items[this.selected[0]].url
             }
         },
         async beforeMount() {
             try {
                 let uPath = this.url
                 if (this.$store.state.showMessage) {
-                    uPath = this.$store.state.showMessage.url
-                    try {
-                        this.allUsers = await u.getAll()
-                    } catch (e) {
-                        this.$showError(e)
-                    }
+                    uPath = this.$store.state.showMessage.path;
                 }
 
-                this.item = this.$store.state.showMessage;
+                let itm = await api.get(uPath, true);
 
-                this.filterMounted()
+                if (itm && itm[0]) {
+                    itm = itm[0]
+                }
+                if (!itm.allowedUsers) {
+                    itm.allowedUsers = [];
+                }
+                this.item = itm;
+                try {
+                    this.allUsers = await u.getAll()
+                } catch (e) {
+                    this.$showError(e)
+                }
+
+
+                this.filterUsers()
+
 
             } catch (e) {
                 this.$showError(e)
@@ -106,7 +116,7 @@
         },
 
         methods: {
-            filterMounted: function (current) {
+            filterUsers: function () {
                 this.allowed = []
                 this.allUsers.forEach(itm => {
                     if (this.user.username == itm.username) {
@@ -125,11 +135,10 @@
             saveShare: async function () {
                 try {
                     this.item.AllowedUsers = this.allowed.filter(usr => usr.allowed).map(usr => usr.user)
-
                     this.item = await api.create(this.item)
-                    this.filterMounted(this.item)
+                    this.filterUsers(this.item)
                     this.$store.commit('closeHovers')
-                    this.$router.go()
+                    //this.$router.go()
                 } catch (e) {
                     this.$showError(e)
                 }

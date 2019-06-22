@@ -200,64 +200,66 @@
 
                 this.listing = res
                 if (this.isMedia()) {
-                    let items = this.applyTypeFilter(res.items, this.isMedia() ? ['image', 'video'] : [this.req.type])
-                    this.listing = items
-                    let list = []
-                    for (let i = 0; i < items.length; i++) {
-                        let src = url.convertToPreview(items[i].url,  false, this.jwt)
+                    if (res.items) {
+                        let items = this.applyTypeFilter(res.items, this.isMedia() ? ['image', 'video'] : [this.req.type]);
+                        this.listing = items
+                        let list = []
+                        for (let i = 0; i < items.length; i++) {
+                            let src = url.convertToPreview(items[i].url, false, this.jwt)
 
-                        if (items[i].type == 'video') {
-                            list.push({
-                                html: "<video src='" + src + "' controls > </video>",
-                                w: window.screen.width,
-                                h: window.screen.height
-                            })
-                        } else {
-                            list.push({
-                                src: src,
-                                w: 0,
-                                h: 0
-                            })
-                        }
-                    }
-                    this.options.index = this.getPos()
-                    let gallery = this.ps = new PhotoSwipe(document.querySelectorAll('.pswp')[0], PhotoSwipeUI_Default, list, this.options)
-                    gallery.listen('gettingData', function (index, item) {
-                        if (item.w < 1 || item.h < 1) { // unknown size
-                            let img = new Image()
-                            img.onload = () => { // will get size after load
-                                item.w = img.width  // set image width
-                                item.h = img.height   // set image height
-                                //gallery.invalidateCurrItems() // reinit Items
-                                item.needsUpdate = true
-                                gallery.updateSize(true) // reinit Items
+                            if (items[i].type == 'video') {
+                                list.push({
+                                    html: "<video src='" + src + "' controls > </video>",
+                                    w: window.screen.width,
+                                    h: window.screen.height
+                                })
+                            } else {
+                                list.push({
+                                    src: src,
+                                    w: 0,
+                                    h: 0
+                                })
                             }
-                            img.src = item.src // let's download image
                         }
-                    })
-                    let _that = this
-                    gallery.listen('destroy', function (ev) {
-                        _that.back(ev)
-                    })
-                    gallery.listen('parseVerticalMargin', function (item) {
-                        // For example:
-                        var gap = item.vGap
+                        this.options.index = this.getPos()
+                        let gallery = this.ps = new PhotoSwipe(document.querySelectorAll('.pswp')[0], PhotoSwipeUI_Default, list, this.options)
+                        gallery.listen('gettingData', function (index, item) {
+                            if (item.w < 1 || item.h < 1) { // unknown size
+                                let img = new Image()
+                                img.onload = () => { // will get size after load
+                                    item.w = img.width  // set image width
+                                    item.h = img.height   // set image height
+                                    //gallery.invalidateCurrItems() // reinit Items
+                                    item.needsUpdate = true
+                                    gallery.updateSize(true) // reinit Items
+                                }
+                                img.src = item.src // let's download image
+                            }
+                        })
+                        let _that = this
+                        gallery.listen('destroy', function (ev) {
+                            _that.back(ev)
+                        })
+                        gallery.listen('parseVerticalMargin', function (item) {
+                            // For example:
+                            var gap = item.vGap
 
-                        gap.top = 0 // There will be 50px gap from top of viewport
-                        gap.bottom = 0 // and 100px gap from the bottom
-                    })
+                            gap.top = 0 // There will be 50px gap from top of viewport
+                            gap.bottom = 0 // and 100px gap from the bottom
+                        })
 
 
-                    this.ps.init()
-                    gallery.framework.bind(gallery.scrollWrap /* bind on any element of gallery */, 'pswpTap', function (e) {
-                        if ('video' == e.detail.target.tagName.toLowerCase()) {
-                            e.detail.target.setAttribute("controls", "controls");
-                        }
-                        // e.detail.origEvent  // original event that finished tap (e.g. mouseup or touchend)
-                        // e.detail.target // e.target of original event
-                        // e.detail.releasePoint // object with x/y coordinates of tap
-                        // e.detail.pointerType // mouse, touch, or pen
-                    });
+                        this.ps.init()
+                        gallery.framework.bind(gallery.scrollWrap /* bind on any element of gallery */, 'pswpTap', function (e) {
+                            if ('video' == e.detail.target.tagName.toLowerCase()) {
+                                e.detail.target.setAttribute("controls", "controls");
+                            }
+                            // e.detail.origEvent  // original event that finished tap (e.g. mouseup or touchend)
+                            // e.detail.target // e.target of original event
+                            // e.detail.releasePoint // object with x/y coordinates of tap
+                            // e.detail.pointerType // mouse, touch, or pen
+                        });
+                    }
 
                 } else {
                     window.addEventListener('keyup', this.key)

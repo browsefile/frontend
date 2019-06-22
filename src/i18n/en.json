@@ -1,7 +1,10 @@
 {
   "permanent": "Permanent",
   "buttons": {
-    "afolder":"Play music",
+    "allowExternal": "Allow all external users",
+    "allowLocal": "Allow all local users",
+    "allowedUsers":"Allowed users",
+    "afolder": "Play music",
     "shell": "Toggle shell",
     "cancel": "Cancel",
     "close": "Close",

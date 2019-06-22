@@ -9,10 +9,10 @@
 <script>
     export default {
         name: 'delete-button',
-        props: ['sharePath'],
+        props: ['shareItem'],
         methods: {
             show: function () {
-                this.$store.commit('showHover', {prompt: 'delete', message: this.sharePath})
+                this.$store.commit('showHover', {prompt: 'delete', message: this.shareItem})
             }
         }
     }

@@ -1,6 +1,9 @@
 {
   "permanent": "Постоянный",
   "buttons": {
+    "allowExternal": "Открыть всем внешним пользователям",
+    "allowLocal": "Открыть всем зарегестрированым пользователям",
+    "allowedUsers":"Открыть пользователям",
     "shell": "Toggle shell",
     "cancel": "Отмена",
     "close": "Закрыть",
