@@ -3,7 +3,7 @@
   "buttons": {
     "allowExternal": "Allow all external users",
     "allowLocal": "Allow all local users",
-    "allowedUsers":"Allowed users",
+    "allowedUsers": "Allowed users",
     "afolder": "Play music",
     "shell": "Toggle shell",
     "cancel": "Cancel",
@@ -124,6 +124,26 @@
     "newArchetype": "Create a new post based on an archetype. Your file will be created on content folder."
   },
   "settings": {
+    "preview": {
+      "firstRun": "When enabled, will generate previews for all users",
+      "threads": "Threads count used to generate previews",
+      "allow": "Allow generate previews"
+    },
+    "port": "Server port",
+    "log": "Server log path, or stdout",
+    "auth": {
+      "noauth":"Disable authentication(only 1 admin user)",
+      "auth": "Server auth method",
+      "ip": "Auth by IP address",
+      "default": "Login + password",
+      "proxy": "Auth by proxy header X-Forwarded-User"
+    },
+    "config": "Server configuration",
+    "ip": "Server ip bind address",
+    "ipauth": "Ip authentication addresses(separate by comma)",
+    "previewPath": "Path for image/videos previews(must be out of homePath!)",
+    "uid": "User id in filesystem (nix OS)",
+    "gid": "User group id in filesystem (nix OS)",
     "myShares": "My shares",
     "share": {
       "path": "Path",

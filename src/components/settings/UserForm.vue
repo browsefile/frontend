@@ -14,6 +14,10 @@
       <label for="scope">{{ $t('settings.scope') }}</label>
       <input class="input input--block" type="text" v-model="user.homePath" id="scope">
     </p>
+    <p>
+      <label for="previewPath">{{ $t('settings.previewPath') }}</label>
+      <input class="input input--block" type="text" v-model="user.previewPath" id="previewPath">
+    </p>
 
     <p>
       <label for="locale">{{ $t('settings.language') }}</label>
@@ -23,14 +27,25 @@
     <p v-if="!isDefault">
       <input type="checkbox" :disabled="user.admin" v-model="user.lockPassword"> {{ $t('settings.lockPassword') }}
     </p>
+    <p v-if="!isDefault">
+      <input type="checkbox" :disabled="user.admin" v-model="user.allowEdit"> {{ $t('settings.allowEdit') }}
+    </p>
+    <p v-if="!isDefault">
+      <input type="checkbox" :disabled="user.admin" v-model="user.allowNew"> {{ $t('settings.allowNew') }}
+    </p>
 
     <p>
-      <label for="scope">{{ $t('settings.uid') }}</label>
+      <label for="uid">{{ $t('settings.uid') }}</label>
       <input class="input input--block" type="number" v-model="user.uid" id="uid">
     </p>
     <p>
-      <label for="scope">{{ $t('settings.gid') }}</label>
+      <label for="gid">{{ $t('settings.gid') }}</label>
       <input class="input input--block" type="number" v-model="user.gid" id="gid">
+    </p>
+
+    <p>
+      <label for="ipauth">{{ $t('settings.ipauth') }}</label>
+      <input class="input input--block" type="text" v-model="user.ipAuth" id="ipauth">
     </p>
 
 

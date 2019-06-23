@@ -8,6 +8,7 @@ import User from '@/views/settings/User'
 import Settings from '@/views/Settings'
 import SharesSettings from '@/views/settings/Shares'
 import ProfileSettings from '@/views/settings/Profile'
+import Config from '@/views/settings/Config'
 import Error403 from '@/views/errors/403'
 import Error404 from '@/views/errors/404'
 import Error500 from '@/views/errors/500'
@@ -64,6 +65,11 @@ const router = new Router({
                         requiresAuth: true
                     },
                     children: [
+                        {
+                            path: '/settings/config',
+                            name: 'Server Settings',
+                            component: Config,
+                        },
                         {
                             path: '/settings/profile',
                             name: 'Profile Settings',
