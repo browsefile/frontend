@@ -35,6 +35,9 @@
                     <delete-button v-show="showDeleteButton"></delete-button>
                 </div>
                 <play-audio-folder v-show="isListing"></play-audio-folder>
+                <clipboard-button v-show="showClipboardButton"></clipboard-button>
+
+
                 <!-- This buttons are shown on a dropdown on mobile phones -->
                 <div id="dropdown" :class="{ active: showMore }">
                     <div v-if="!isListing || !isMobile">
@@ -68,6 +71,7 @@
     import InfoButton from './buttons/Info'
     import DeleteButton from './buttons/Delete'
     import RenameButton from './buttons/Rename'
+    import ClipboardButton from './buttons/Clipboard'
     import UploadButton from './buttons/Upload'
     import DownloadButton from './buttons/Download'
     import SwitchButton from './buttons/SwitchView'
@@ -78,7 +82,9 @@
     import {mapGetters, mapState} from 'vuex'
     import {logoURL} from '@/utils/constants'
     import * as api from '@/api'
+
     import buttons from '@/utils/buttons'
+    import Clipboard from 'clipboard'
 
     export default {
         name: 'header-layout',
@@ -93,10 +99,12 @@
             UploadButton,
             SwitchButton,
             MoveButton,
-            PlayAudioFolder
+            PlayAudioFolder,
+            ClipboardButton
         },
         data: function () {
             return {
+                clip: null,
                 width: window.innerWidth,
                 pluginData: {
                     api,
@@ -156,6 +164,10 @@
             showCopyButton() {
                 return this.isFiles && this.selectedCount > 0 && !this.isShare
             },
+            showClipboardButton() {
+                let itm = this.req.items[this.selected[0]]
+                return this.isFiles && this.selectedCount == 1 && !itm.isDir&&itm.type==='video'
+            },
             showMore() {
                 return this.isFiles && this.$store.state.show === 'more'
             },
@@ -165,6 +177,15 @@
             isListing() {
                 return this.req.kind === 'listing'
             }
+        },
+        mounted() {
+            this.clip = new Clipboard('.copy-clipboard')
+            this.clip.on('success', () => {
+                this.$showSuccess(this.$t('success.linkCopied'))
+            })
+        },
+        beforeDestroy() {
+            this.clip.destroy()
         },
         methods: {
             openSidebar() {

@@ -43,7 +43,7 @@
     import {users as u} from '@/api'
     import {share as api} from '@/api'
     import {baseURL} from '@/utils/constants'
-    import Clipboard from 'clipboard'
+
 
     export default {
         name: 'share',
@@ -53,7 +53,6 @@
                 allUsers: [],
                 allowed: [],
                 item: {},
-                clip: null
             }
         },
         computed: {
@@ -104,15 +103,6 @@
             } catch (e) {
                 this.$showError(e)
             }
-        },
-        mounted() {
-            this.clip = new Clipboard('.copy-clipboard')
-            this.clip.on('success', () => {
-                this.$showSuccess(this.$t('success.linkCopied'))
-            })
-        },
-        beforeDestroy() {
-            this.clip.destroy()
         },
 
         methods: {
