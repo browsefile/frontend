@@ -9,19 +9,20 @@ export function removeLastDir(url) {
     return arr.join('/')
 }
 
-export function convertToPreview(url, isPreview, auth, isBase) {
-    let res
+export function convertToPreview(url, isPreview, auth, isShare) {
+    let res = ""
 
-    let bu = baseURL
-    if (isBase) {
-        bu = window.location.href
-        let arr = bu.split("/")
-        bu = arr[0] + "//" + arr[2]
+    let bu = window.location.href
+    let arr = bu.split("/")
+    bu = arr[0] + "//" + arr[2]
+
+    if (baseURL && baseURL.length > 0) {
+        bu = baseURL
     }
 
     let parm = {
         'inline': true
-    }
+    };
     if (auth) {
         parm.auth = auth
     }
@@ -29,10 +30,10 @@ export function convertToPreview(url, isPreview, auth, isBase) {
         parm.previewType = 'thumb'
     }
     let sym = url.includes('?') ? '&' : '?';
-    if (url.startsWith('/shares')) {
-        res = bu + url.replace('shares', 'api/shares/download')
-    } else if (url.startsWith('/files')) {
-        res = bu + url.replace('files', 'api/download')
+    if (isShare) {
+        res = bu + '/api/shares/download' + url
+    } else {
+        res = bu + '/api/download' + url
     }
     return res + sym + encodeUrlData(parm)
 }

@@ -51,7 +51,7 @@
         },
         props: ['name', 'isDir', 'url', 'type', 'size', 'modified', 'index'],
         computed: {
-            ...mapState(['selected', 'req','jwt']),
+            ...mapState(['selected', 'req', 'jwt']),
             ...mapGetters(['selectedCount', 'isShare']),
             isSelected() {
                 return (this.selected.indexOf(this.index) !== -1)
@@ -83,7 +83,7 @@
                 return this.url.split('=')[1]
             },
             getThumbNailURL: function () {
-                return url.convertToPreview(this.url, true, this.jwt)
+               return url.convertToPreview(this.url, true, this.jwt, this.isShare)
             },
             humanSize: function () {
                 return filesize(this.size)
@@ -178,7 +178,6 @@
                 }
             },
             open: function (event) {
-
                 if (this.type == 'audio') {
                     event.preventDefault()
                     this.$root.$emit('playTrack', [{
@@ -188,12 +187,10 @@
                 } else if (this.isShare) {
                     let p = this.url.split("?")
                     let u = p[1].split("=")[1]
-                    p = p[0]
-
+                    p = '/shares' + p[0]
                     this.$router.push({path: p, query: {'share': u}})
                 } else {
-
-                    this.$router.push({path: this.url})
+                    this.$router.push({path: '/files' + this.url})
                 }
             }
         }

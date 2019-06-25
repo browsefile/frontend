@@ -44,7 +44,7 @@
                     }
                     let itemsFiltered = res.items.filter(it => it.type == 'audio')
                     for (let i in itemsFiltered) {
-                        itemsFiltered[i].url = url_parser.convertToPreview(itemsFiltered[i].url, false, this.jwt)
+                        itemsFiltered[i].url = url_parser.convertToPreview(itemsFiltered[i].url, false, this.jwt, this.isShare)
                     }
 
                     if (itemsFiltered.length > 0)
@@ -69,7 +69,7 @@
 
                 for (let i in  tracks) {
                     let itm = tracks[i]
-                    itm.url = url_parser.convertToPreview(itm.url, false, this.jwt)
+                    itm.url = url_parser.convertToPreview(itm.url, false, this.jwt, this.isShare)
                     this.player.list.add(itm)
                 }
                 if (this.player.list.audios.length == 0) {
