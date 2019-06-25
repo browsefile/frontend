@@ -35,7 +35,7 @@
                     <delete-button v-show="showDeleteButton"></delete-button>
                 </div>
                 <play-audio-folder v-show="isListing"></play-audio-folder>
-                <clipboard-button v-show="showClipboardButton"></clipboard-button>
+                <clipboard-button v-if="showClipboardButton"></clipboard-button>
 
 
                 <!-- This buttons are shown on a dropdown on mobile phones -->
@@ -165,8 +165,10 @@
                 return this.isFiles && this.selectedCount > 0 && !this.isShare
             },
             showClipboardButton() {
-                let itm = this.req.items[this.selected[0]]
-                return this.isFiles && this.selectedCount == 1 && !itm.isDir&&itm.type==='video'
+                if (this.selectedCount == 1) {
+                    let itm = this.req.items[this.selected[0]]
+                    return this.isFiles && !itm.isDir && itm.type === 'video'
+                }
             },
             showMore() {
                 return this.isFiles && this.$store.state.show === 'more'

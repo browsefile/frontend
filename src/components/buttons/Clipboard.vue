@@ -18,7 +18,7 @@
             buildClipboardLink() {
                 let src = ""
                 if (this.selected.length > 0) {
-                    src = url.convertToPreview(this.req.items[this.selected[0]].url, false, this.jwt)
+                    src = url.convertToPreview(this.req.items[this.selected[0]].url, false, this.jwt, true)
                 }
 
                 return src
