@@ -46,7 +46,7 @@
                         <div @click="itemClick(s,$event)" style="cursor: pointer;">
                             <i v-if="s.dir" class="material-icons">folder</i>
                             <i v-else class="material-icons">insert_drive_file</i>
-                            <span>./{{ s.url }}</span>
+                            <span>./{{ decodeURI(s.url) }}</span>
                         </div>
 
                     </li>
