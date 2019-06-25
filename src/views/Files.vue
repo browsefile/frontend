@@ -127,11 +127,9 @@
         },
         mounted() {
             window.addEventListener('keydown', this.keyEvent)
-            window.addEventListener('scroll', this.scroll)
         },
         beforeDestroy() {
             window.removeEventListener('keydown', this.keyEvent)
-            window.removeEventListener('scroll', this.scroll)
         },
         destroyed() {
             this.$store.commit('updateRequest', {})
@@ -227,18 +225,6 @@
                         }
                     }
                 }
-            },
-            scroll() {
-                if (this.req.kind !== 'listing' || this.$store.state.user.viewMode === 'mosaic') return
-
-                let top = 112 - window.scrollY
-
-                if (top < 64) {
-                    top = 64
-                }
-                let lstEl = document.querySelector('#listing.list .item.header')
-                if (lstEl && lstEl.style)
-                    lstEl.style.top = top + 'px'
             },
             openSidebar() {
                 this.$store.commit('showHover', 'sidebar')
