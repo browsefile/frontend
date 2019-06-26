@@ -69,6 +69,9 @@ const router = new Router({
                             path: '/settings/config',
                             name: 'Server Settings',
                             component: Config,
+                            meta: {
+                                requiresAdmin: true
+                            }
                         },
                         {
                             path: '/settings/profile',
