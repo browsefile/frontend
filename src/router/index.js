@@ -78,10 +78,7 @@ const router = new Router({
                         {
                             path: '/settings/shares',
                             name: 'Shares Settings',
-                            component: SharesSettings,
-                            meta: {
-                                requiresAdmin: true
-                            }
+                            component: SharesSettings
                         },
                         {
                             path: '/settings/users',
