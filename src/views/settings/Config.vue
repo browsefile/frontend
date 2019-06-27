@@ -41,7 +41,7 @@
                 </p>
                 <p>
                     <label for="preview_threads">{{ $t('settings.preview.threads') }}</label>
-                    <input class="input input--block" type="text" v-model="conf.preview.threads" id="preview_threads"
+                    <input class="input input--block" type="number" v-model="conf.preview.threads" id="preview_threads"
                            name="preview_threads">
                 </p>
 
@@ -94,6 +94,7 @@
             async save(event) {
                 event.preventDefault()
                 try {
+                    this.conf.preview.threads = parseInt(this.conf.preview.threads)
                     api.update(this.conf)
                     this.$showSuccess(this.$t('settings.settingsUpdated'))
                 } catch (e) {
