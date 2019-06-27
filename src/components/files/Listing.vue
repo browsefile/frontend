@@ -42,7 +42,7 @@
                         <span>{{ $t('files.lastModified') }}</span>
                         <i class="material-icons">{{ modifiedIcon }}</i>
                     </p>
-                    <p :class="{ active: ownerSorted }" class="owner"
+                    <p v-if="isShare"  :class="{ active: ownerSorted }" class="owner"
                        role="textbox"
                        tabindex="0"
                        @click="sort('owner')"
@@ -111,7 +111,7 @@
             }
         },
         computed: {
-            ...mapState(['req', 'selected', 'user']),
+            ...mapState(['req', 'selected', 'user', 'isShare']),
             nameSorted() {
                 return (this.req.sort === 'name')
             },

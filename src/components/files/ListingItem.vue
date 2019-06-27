@@ -29,7 +29,7 @@
             <p class="modified">
                 <time :datetime="modified">{{ humanTime() }}</time>
             </p>
-            <p class="owner">{{ getOwner() }}</p>
+            <p v-if="isShare"  class="owner">{{ getOwner() }}</p>
         </div>
     </div>
 </template>
@@ -51,8 +51,8 @@
         },
         props: ['name', 'isDir', 'url', 'type', 'size', 'modified', 'index'],
         computed: {
-            ...mapState(['selected', 'req', 'jwt']),
-            ...mapGetters(['selectedCount', 'isShare']),
+            ...mapState(['selected', 'req', 'jwt', 'isShare']),
+            ...mapGetters(['selectedCount']),
             isSelected() {
                 return (this.selected.indexOf(this.index) !== -1)
             },

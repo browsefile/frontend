@@ -11,15 +11,6 @@
     </p>
 
     <p>
-      <label for="scope">{{ $t('settings.scope') }}</label>
-      <input class="input input--block" type="text" v-model="user.homePath" id="scope">
-    </p>
-    <p>
-      <label for="previewPath">{{ $t('settings.previewPath') }}</label>
-      <input class="input input--block" type="text" v-model="user.previewPath" id="previewPath">
-    </p>
-
-    <p>
       <label for="locale">{{ $t('settings.language') }}</label>
       <languages class="input input--block" id="locale" :locale.sync="user.locale"></languages>
     </p>

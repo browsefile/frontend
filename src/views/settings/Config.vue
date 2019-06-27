@@ -35,14 +35,19 @@
                     $t('settings.preview.allow') }}
                 </p>
                 <p>
+                    <input type="checkbox" v-model="conf.preview.previewsOnFirstRun"> {{ $t('settings.preview.firstRun')
+                    }}
+
+                </p>
+                <p>
                     <label for="preview_threads">{{ $t('settings.preview.threads') }}</label>
                     <input class="input input--block" type="text" v-model="conf.preview.threads" id="preview_threads"
                            name="preview_threads">
                 </p>
+
                 <p>
-                    <label for="preview_firstRun">{{ $t('settings.preview.firstRun') }}</label>
-                    <input class="input input--block" type="text" v-model="conf.preview.firstRun" id="preview_firstRun"
-                           name="preview_firstRun">
+                    <label for="scope">{{ $t('settings.scope') }}</label>
+                    <input class="input input--block" type="text" v-model="conf.filesPath" id="scope">
                 </p>
 
 
@@ -69,8 +74,8 @@
             return {
                 conf: {
                     ip: "192.168.1.1", log: "/var/log/bf.log", port: 8081, preview: {
-                        threads: 2, firstRun: false, allowGeneratePreview: true
-                    },auth:{method:"default"}
+                        threads: 2, previewsOnFirstRun: false, allowGeneratePreview: true
+                    }, auth: {method: "default"}
                 }
             }
         },

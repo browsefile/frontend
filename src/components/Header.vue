@@ -5,7 +5,7 @@
                     class="action">
                 <i class="material-icons">menu</i>
             </button>
-            <img :src="logoURL" alt="File Browser">
+            <img :src="logoURL" alt="Browsefile">
             <search v-if="isLogged"></search>
         </div>
         <div>
