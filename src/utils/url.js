@@ -37,6 +37,10 @@ export function convertToPreview(url, isPreview, auth, isShare) {
     }
     return res + sym + encodeUrlData(parm)
 }
+export function convertToDownload(url) {
+    return url.replace('files', 'api/download')
+}
+
 
 export function encodeUrlData(data) {
     return Object.keys(data).map(function (key) {
