@@ -138,7 +138,7 @@
             ...mapMutations(['setLoading']),
             async fetchData() {
                 // Reset view information.
-
+                this.$store.commit('setReload', false)
                 this.$store.commit('resetSelected')
                 this.$store.commit('multiple', false)
                 this.$store.commit('closeHovers')

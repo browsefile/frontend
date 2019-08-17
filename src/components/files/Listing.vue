@@ -42,7 +42,7 @@
                         <span>{{ $t('files.lastModified') }}</span>
                         <i class="material-icons">{{ modifiedIcon }}</i>
                     </p>
-                    <p v-if="isShare"  :class="{ active: ownerSorted }" class="owner"
+                    <p v-if="isShare" :class="{ active: ownerSorted }" class="owner"
                        role="textbox"
                        tabindex="0"
                        @click="sort('owner')"
@@ -125,7 +125,7 @@
                 return (this.req.sort === 'owner')
             },
             ascOrdered() {
-                return this.req.order
+                return (this.req.order === 'asc')
             },
             items() {
                 const dirs = []
@@ -181,7 +181,7 @@
                 return 'arrow_upward'
             }
         },
-        mounted () {
+        mounted() {
             // Check the columns size for the first time.
             this.resizeEvent()
 
@@ -201,7 +201,7 @@
             document.removeEventListener('drop', this.drop)
         },
         methods: {
-            ...mapMutations(['updateUser']),
+            ...mapMutations(['updateUser', 'setReload']),
             base64: function (name) {
                 return window.btoa(unescape(encodeURIComponent(name)))
             },
@@ -272,13 +272,13 @@
 
                 if (this.$store.state.clipboard.key === 'x') {
                     api.move(items).then(() => {
-                        this.$store.commit('setReload', true)
+                        this.setReload(true)
                     }).catch(this.$showError)
                     return
                 }
 
                 api.copy(items).then(() => {
-                    this.$store.commit('setReload', true)
+                    this.setReload(true)
                 }).catch(this.$showError)
             },
             resizeEvent() {
@@ -417,34 +417,21 @@
 
                 return false
             },
-            async sort(by) {
-                let asc = false
+            sort(srt) {
+                let order = 'desc'
 
-                if (by === 'name') {
-                    if (this.nameIcon === 'arrow_upward') {
-                        asc = true
-                    }
-                } else if (by === 'size') {
-                    if (this.sizeIcon === 'arrow_upward') {
-                        asc = true
-                    }
-                } else if (by === 'modified') {
-                    if (this.modifiedIcon === 'arrow_upward') {
-                        asc = true
-                    }
-                } else if (by === 'owner') {
-                    if (this.ownerIcon === 'arrow_upward') {
-                        asc = true
-                    }
+                if (srt === 'name' && this.nameIcon === 'arrow_upward' ||
+                    srt === 'size' && this.sizeIcon === 'arrow_upward' ||
+                    srt === 'modified' && this.modifiedIcon === 'arrow_upward') {
+                    order = 'asc'
                 }
 
-                try {
-                    await users.update({id: this.user.username, sorting: {by, asc}}, ['sorting'])
-                } catch (e) {
-                    this.$showError(e)
-                }
+                let path = this.$store.state.baseURL
+                if (path === '') path = '/'
 
-                this.$store.commit('setReload', true)
+                document.cookie = `sort=${srt}; max-age=31536000; path=${path}`
+                document.cookie = `order=${order}; max-age=31536000; path=${path}`
+                this.setReload(true)
             }
         }
     }
