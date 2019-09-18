@@ -3,14 +3,17 @@ import store from '@/store'
 import router from '@/router'
 import i18n from '@/i18n'
 import Vue from '@/utils/vue'
-import {recaptcha, noAuth} from '@/utils/constants'
+import {recaptcha, noAuth, external} from '@/utils/constants'
 import {login, validateLogin} from '@/utils/auth'
 import App from '@/App'
 
 sync(store, router)
 
 async function start() {
-    if (noAuth) {
+
+    if (external) {
+        await login('guest', 'guest', '')
+    } else if (noAuth) {
         await login('', '', '')
     } else {
         await validateLogin()

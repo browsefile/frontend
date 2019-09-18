@@ -1,6 +1,7 @@
 import {fetchURL, fetchJSON, removePrefix} from './utils'
 import {baseURL} from '@/utils/constants'
 import store from '@/store'
+import {external} from '@/utils/constants'
 
 export async function get(url, isMeta) {
     url = removePrefix(url)
@@ -27,6 +28,18 @@ export async function get(url, isMeta) {
     return data
 }
 
+export async function getExternal(url, isMeta) {
+    url = removePrefix(url)
+    url = '/api/shares' + url
+    let sym = '?'
+    if (url.includes('?')) {
+        sym = '&'
+    }
+    url += sym + 'share=gen-ex';
+    return await fetchJSON(url, {method: 'POST'})
+}
+
+
 export function download(format, ...files) {
     let url = `${baseURL}/api/shares/download`
 
@@ -37,6 +50,7 @@ export function download(format, ...files) {
     }
 
     arg = arg.substring(0, arg.length - 1)
+
     arg = encodeURIComponent(arg)
     url += `/?files=${arg}&`
 
@@ -44,7 +58,8 @@ export function download(format, ...files) {
         url += `algo=${format}&`
     }
 
-    url += `auth=${store.state.jwt}`;
+    url += `auth=${store.state.jwt}`
+
 
     window.open(url)
 }
@@ -65,6 +80,10 @@ export async function remove(url) {
 
 export async function create(item) {
     let url = removePrefix(item.path)
+    url = url.replace("/files", "")
+    if (url.endsWith("/")) {
+        url = url.slice(0, -1)
+    }
     url = '/api/shares/resource' + url + '?share=my-meta'
 
 

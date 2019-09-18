@@ -6,8 +6,13 @@
 
         <div class="card-content">
             <ul>
+                <li v-show="item.allowExternal">
+                    <div><input id="cpyExt" type="text" ref="cpyExt" v-model="externalURL"/>
+                    </div>
+                </li>
                 <li>
-                    <input type="checkbox" id="allowExternal" v-model="item.allowExternal">
+
+                    <input type="checkbox" id="allowExternal" v-model="externalLink">
                     <label for="allowExternal">{{ $t('buttons.allowExternal') }}</label>
                 </li>
                 <li>
@@ -44,7 +49,6 @@
     import {share as api} from '@/api'
     import {baseURL} from '@/utils/constants'
 
-
     export default {
         name: 'share',
 
@@ -53,11 +57,36 @@
                 allUsers: [],
                 allowed: [],
                 item: {},
+                externalURL: ""
             }
         },
         computed: {
             ...mapState(['user', 'req', 'selected', 'selectedCount']),
             ...mapGetters(['isListing']),
+            externalLink: {
+                get() {
+                    return this.item.allowExternal
+                },
+                async set(newV) {
+                    this.item.allowExternal = newV
+                    if (this.item.allowExternal) {
+                        if (!this.externalURL || this.externalURL.length == 0) {
+                            this.externalURL = await api.getExternal(this.getUPath(), false)
+                        }
+                        let copyText = this.$refs.cpyExt
+                        copyText.value = this.externalURL
+                        /* Select the text field */
+                        copyText.select();
+                        /* Copy the text inside the text field */
+                        document.execCommand("copy");
+
+                        // this.$refs.cpyExt.select()
+                        this.$showSuccess(this.$t('success.linkCopied'))
+
+                    }
+                }
+
+            },
             url() {
                 if (this.$store.state.showMessage) {
                     return this.$store.state.showMessage.path
@@ -76,20 +105,16 @@
         },
         async beforeMount() {
             try {
-                let uPath = this.url
-                if (this.$store.state.showMessage) {
-                    uPath = this.$store.state.showMessage.path;
-                }
 
-                let itm = await api.get(uPath, true);
+                let itm = await api.get(this.getUPath(), true)
 
                 if (itm && itm[0]) {
                     itm = itm[0]
                 }
                 if (!itm.allowedUsers) {
-                    itm.allowedUsers = [];
+                    itm.allowedUsers = []
                 }
-                this.item = itm;
+                this.item = itm
                 try {
                     this.allUsers = await u.getAll()
                 } catch (e) {
@@ -99,6 +124,9 @@
 
                 this.filterUsers()
 
+                if (this.item.allowExternal) {
+                    this.externalLink = true
+                }
 
             } catch (e) {
                 this.$showError(e)
@@ -106,6 +134,13 @@
         },
 
         methods: {
+            getUPath() {
+                let uPath = this.url
+                if (this.$store.state.showMessage) {
+                    uPath = this.$store.state.showMessage.path
+                }
+                return uPath
+            },
             filterUsers: function () {
                 this.allowed = []
                 this.allUsers.forEach(itm => {

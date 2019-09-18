@@ -2,7 +2,7 @@
     <button class="action copy-clipboard"
             :data-clipboard-text="buildClipboardLink()"
             :aria-label="$t('buttons.copyToClipboard')"
-            :title="$t('buttons.copyToClipboard')"><i class="material-icons">view_stream</i></button>
+            :title="$t('buttons.copyToClipboard')"><i class="material-icons">live_tv</i></button>
 </template>
 
 <script>

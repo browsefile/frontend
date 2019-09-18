@@ -44,7 +44,10 @@ const router = new Router({
                 {
                     path: '/shares/*',
                     name: 'Shares',
-                    component: Files
+                    component: Files,
+                    meta: {
+                        requiresAuth: true
+                    }
                 },
                 {
                     path: '/files/*',
@@ -158,7 +161,6 @@ router.beforeEach((to, from, next) => {
             }
         }
     }
-
     if (to.name === 'Shares') {
         Vue.set(store.state, 'isShare', true)
     } else {

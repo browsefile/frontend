@@ -90,12 +90,6 @@
             <img v-if="req.type == 'image'" :src="raw">
             <audio v-else-if="req.type == 'audio'" :src="raw" autoplay controls></audio>
             <video v-else-if="req.type == 'video'" :src="raw" autoplay controls>
-                <track
-                        kind="captions"
-                        v-for="(sub, index) in subtitles"
-                        :key="index"
-                        :src="sub"
-                        :label="'Subtitle ' + index" :default="index === 0">
                 Sorry, your browser doesn't support embedded videos,
                 but don't worry, you can <a :href="download">download it</a>
                 and watch it with your favorite video player!
@@ -149,8 +143,7 @@
                 },
                 previousLink: '',
                 nextLink: '',
-                listing: null,
-                subtitles: []
+                listing: null
             }
         },
         computed: {
@@ -178,22 +171,12 @@
                 } else if (this.req.items) {
                     res = this.req
                 } else {
-                    let url = this.$route.path
-
+                    let u = url.makeFileUrl(this.isShare, this.$route)
                     if (this.isShare) {
-
-                        if (url === '') url = '/'
-                        if (url[0] !== '/') url = '/' + url
-
-                        if (this.$route.query && this.$route.query.share) {
-                            url += "?share=" + this.$route.query.share
-                        } else {
-                            url += "?share=list"
-                        }
-                        res = await share.get(url)
+                        res = await share.get(u)
 
                     } else {
-                        res = await files.fetch(url)
+                        res = await files.fetch(u)
 
                     }
 
@@ -264,11 +247,6 @@
 
                 } else {
                     window.addEventListener('keyup', this.key)
-
-                    if (this.req.subtitles) {
-                        this.subtitles = this.req.subtitles.map(sub => `${baseURL}/api/raw${sub}?auth=${this.jwt}&inline=true`)
-                    }
-
                     this.updateLinks(res.items)
                 }
 

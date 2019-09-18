@@ -132,7 +132,6 @@
                 'req',
                 'user',
                 'loading',
-                'reload',
                 'multiple',
                 'isShare'
             ]),

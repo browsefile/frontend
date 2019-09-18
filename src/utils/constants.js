@@ -6,8 +6,9 @@ const recaptcha = window.FileBrowser.ReCaptcha
 const recaptchaKey = window.FileBrowser.ReCaptchaKey
 const signup = window.FileBrowser.Signup
 const version = window.FileBrowser.Version
-const logoURL = `/${staticURL}/img/logo.svg`
+const logoURL = `${staticURL}/img/logo.svg`
 const noAuth = window.FileBrowser.NoAuth
+const external = window.FileBrowser.isExternal
 
 export {
     name,
@@ -18,5 +19,6 @@ export {
     recaptchaKey,
     signup,
     version,
-    noAuth
+    noAuth,
+    external
 }

@@ -29,7 +29,7 @@
             <p class="modified">
                 <time :datetime="modified">{{ humanTime() }}</time>
             </p>
-            <p v-if="isShare"  class="owner">{{ getOwner() }}</p>
+            <p v-if="isShare" class="owner">{{ getOwner() }}</p>
         </div>
     </div>
 </template>
@@ -40,6 +40,7 @@
     import moment from 'moment'
     import * as files from "../../api/files";
     import * as url from "@/utils/url"
+    import {external} from '@/utils/constants'
 
     export default {
         name: 'item',
@@ -80,10 +81,10 @@
         methods: {
             ...mapMutations(['addSelected', 'removeSelected', 'resetSelected']),
             getOwner() {
-                return this.url.split('=')[1]
+                return this.url.split('=')[1].split("&")[0]
             },
             getThumbNailURL: function () {
-               return url.convertToPreview(this.url, true, this.jwt, this.isShare)
+                return url.convertToPreview(this.url, true, this.jwt, this.isShare)
             },
             humanSize: function () {
                 return filesize(this.size)
@@ -188,7 +189,16 @@
                     let p = this.url.split("?")
                     let u = p[1].split("=")[1]
                     p = '/shares' + p[0]
-                    this.$router.push({path: p, query: {'share': u}})
+                    if (external) {
+                        u = u.split("&")[0]
+                        this.$router.push({
+                            path: p,
+                            query: {'share': u, 'rootHash': this.$route.query.rootHash}
+                        })
+                    } else {
+
+                        this.$router.push({path: p, query: {'share': u}})
+                    }
                 } else {
                     this.$router.push({path: '/files' + this.url})
                 }

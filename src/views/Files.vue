@@ -2,14 +2,13 @@
     <div>
         <div id="breadcrumbs">
 
-            <router-link v-if="isShare" to="/shares/" :aria-label="$t('sidebar.share')" :title="$t('sidebar.share')">
+            <router-link v-if="isShare" :to="getBrCrmbURL" :aria-label="$t('sidebar.share')"
+                         :title="$t('sidebar.share')">
                 <i class="material-icons">folder_shared</i>
             </router-link>
             <router-link v-else to="/files/" :aria-label="$t('files.home')" :title="$t('files.home')">
                 <i class="material-icons">home</i>
             </router-link>
-
-
             <span v-for="(link, index) in breadcrumbs" :key="index">
         <span class="chevron"><i class="material-icons">keyboard_arrow_right</i></span>
         <router-link :to="link.url">{{ link.name }}</router-link>
@@ -41,6 +40,8 @@
     import {mapGetters, mapState, mapMutations} from 'vuex'
     import * as share from "@/api/share";
     import * as files from "@/api/files";
+    import {external} from '@/utils/constants'
+    import * as url from "@/utils/url"
 
     function clean(path) {
         return path.endsWith('/') ? path.slice(0, -1) : path
@@ -74,6 +75,9 @@
             isPreview() {
                 return !this.loading && !this.isListing && !this.isEditor
             },
+            getBrCrmbURL() {
+                return '/shares/' + this.getParams()
+            },
             breadcrumbs() {
                 let parts = this.$route.path.split('/')
 
@@ -96,6 +100,9 @@
                             url: breadcrumbs[i - 1].url + parts[i] + '/'
                         })
                     }
+                }
+                for (let i = 0; i < breadcrumbs.length; i++) {
+                    breadcrumbs[i].url += this.getParams()
                 }
 
                 breadcrumbs.shift()
@@ -147,22 +154,14 @@
                 this.setLoading(true)
                 this.error = null
 
-                let url = this.$route.path
-
-                if (url === '') url = '/'
-                if (url[0] !== '/') url = '/' + url
-
+                let u = url.makeFileUrl(this.isShare, this.$route)
                 try {
                     let res = null
+
                     if (this.isShare) {
-                        if (this.$route.query && this.$route.query.share) {
-                            url += "?share=" + this.$route.query.share
-                        } else {
-                            url += "?share=list"
-                        }
-                        res = await share.get(url)
+                        res = await share.get(u)
                     } else {
-                        res = await files.fetch(url)
+                        res = await files.fetch(u)
 
                     }
                     this.$store.commit('updateRequest', res)
@@ -231,6 +230,15 @@
             },
             openSearch() {
                 this.$store.commit('showHover', 'search')
+            },
+            getParams: function () {
+                let rs = ''
+                if (external && this.$route.query.rootHash) {
+                    rs = '?rootHash=' + this.$route.query.rootHash
+                } else if (this.$route.query && this.$route.query.share) {
+                    rs = '?share=' + this.$route.query.share
+                }
+                return rs
             }
         }
     }

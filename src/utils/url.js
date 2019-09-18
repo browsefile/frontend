@@ -1,4 +1,5 @@
 import {baseURL} from '@/utils/constants'
+import {external} from '@/utils/constants'
 
 export function removeLastDir(url) {
     var arr = url.split('/')
@@ -8,6 +9,25 @@ export function removeLastDir(url) {
 
     return arr.join('/')
 }
+
+export function makeFileUrl(isShare, route) {
+    let u = route.path
+
+    if (u === '') u = '/'
+    if (u[0] !== '/') u = '/' + u
+    if (isShare) {
+        if (external && route.query.rootHash) {
+            u += "?rootHash=" + route.query.rootHash
+        } else if (route.query && route.query.share) {
+            u += "?share=" + route.query.share
+        } else {
+            u += "?share=list"
+        }
+    }
+
+    return u
+}
+
 
 export function convertToPreview(url, isPreview, auth, isShare) {
     let res = ""
@@ -37,6 +57,7 @@ export function convertToPreview(url, isPreview, auth, isShare) {
     }
     return res + sym + encodeUrlData(parm)
 }
+
 export function convertToDownload(url) {
     return url.replace('files', 'api/download')
 }
