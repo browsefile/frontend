@@ -2,14 +2,14 @@
 
     <button v-if="isOne" class="action copy-clipboard"
             :data-clipboard-text="buildClipboardLink()"
-            :aria-label="$t('buttons.copyToClipboard')"
-            :title="$t('buttons.copyToClipboard')"><i class="material-icons">live_tv</i></button>
+            :aria-label="$t('buttons.externalPLayer')"
+            :title="$t('buttons.externalPLayer')"><i class="material-icons">live_tv</i></button>
 
-    <button v-else @click="show" :aria-label="$t('buttons.copyToClipboard')" :title="$t('buttons.copyToClipboard')"
+    <button v-else @click="show" :aria-label="$t('buttons.externalPLayer')" :title="$t('buttons.externalPLayer')"
             class="action"
             id="aplay-button">
         <i class="material-icons">live_tv</i>
-        <span>{{ $t('buttons.copyToClipboard') }}</span>
+        <span>{{ $t('buttons.externalPLayer') }}</span>
     </button>
 </template>
 
