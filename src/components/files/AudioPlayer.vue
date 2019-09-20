@@ -31,9 +31,9 @@
                 try {
 
                     if (path.includes('?')) {
-                        path += '&recursive=true'
+                        path += '&recursive=true&query=type:audio%20n'
                     } else {
-                        path += "?recursive=true"
+                        path += "?recursive=true&query=type:audio%20n"
                     }
 
                     let res
