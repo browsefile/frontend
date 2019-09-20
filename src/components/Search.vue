@@ -194,18 +194,7 @@
 
                 this.ongoing = true
 
-                let v = ''
-                if (this.value === 'audio') {
-                    v = 'a'
-                } else if (this.value === 'video') {
-                    v = 'v'
-                } else if (this.value === 'image') {
-                    v = 'i'
-                } else if (this.value === 'pdf') {
-                    v = 'p'
-                }
-
-                this.results = (await search(path, v)).items;
+                this.results = (await search(path, this.value)).items
                 if (!this.results) {
                     this.results = []
                 }
