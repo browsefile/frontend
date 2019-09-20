@@ -1,9 +1,14 @@
 {
   "permanent": "Permanent",
-  "buttons": {
+  "checkbox": {
+    "video": "All video files",
+    "image": "All images",
+    "music": "All music",
     "allowExternal": "Allow all external users",
     "allowLocal": "Allow all local users",
-    "allowedUsers": "Allowed users",
+    "allowedUsers": "Allowed users"
+  },
+  "buttons": {
     "afolder": "Play music",
     "shell": "Toggle shell",
     "cancel": "Cancel",
@@ -92,6 +97,9 @@
     "wrongCredentials": "Wrong credentials"
   },
   "prompts": {
+    "downloadPlaylist": {
+      "name": "Download selected file/folders as .m3u playlist"
+    },
     "copy": "Copy",
     "copyMessage": "Choose the place to copy your files:",
     "currentlyNavigating": "Currently navigating on:",
@@ -124,6 +132,7 @@
     "newArchetype": "Create a new post based on an archetype. Your file will be created on content folder."
   },
   "settings": {
+    "externalShareHost": "External DMZ URL, used in external shares",
     "preview": {
       "firstRun": "When enabled, will generate previews for all users",
       "threads": "Threads count used to generate previews",
@@ -132,7 +141,7 @@
     "port": "Server port",
     "log": "Server log path, or stdout",
     "auth": {
-      "noauth":"Disable authentication(only 1 admin user)",
+      "noauth": "Disable authentication(only 1 admin user)",
       "auth": "Server auth method",
       "ip": "Auth by IP address",
       "default": "Login + password",

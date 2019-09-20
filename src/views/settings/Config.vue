@@ -17,6 +17,11 @@
                     <input class="input input--block" type="number" v-model="conf.port" id="port" name="port">
                 </p>
                 <p>
+                    <label for="externalShareHost">{{ $t('settings.externalShareHost') }}</label>
+                    <input class="input input--block" type="text" v-model="conf.externalShareHost"
+                           id="externalShareHost" name="externalShareHost">
+                </p>
+                <p>
                     <label for="log">{{ $t('settings.log') }}</label>
                     <input class="input input--block" type="text" v-model="conf.log" id="log" name="log">
                 </p>
@@ -73,8 +78,12 @@
         data: function () {
             return {
                 conf: {
-                    ip: "192.168.1.1", log: "/var/log/bf.log", port: 8081, preview: {
-                        threads: 2, previewsOnFirstRun: false, allowGeneratePreview: true
+                    ip: "192.168.1.1",
+                    externalShareHost: "http://127.0.0.1:8081",
+                    log: "/var/log/bf.log", port: 8081, preview: {
+                        threads: 2,
+                        previewsOnFirstRun: false,
+                        allowGeneratePreview: true
                     }, auth: {method: "default"}
                 }
             }

@@ -35,8 +35,7 @@
                     <delete-button v-show="showDeleteButton"></delete-button>
                 </div>
                 <play-audio-folder v-show="isListing"></play-audio-folder>
-                <clipboard-button v-if="showClipboardButton"></clipboard-button>
-
+                <download-playlist-btn v-if="showDownloadPlaylist"></download-playlist-btn>
 
                 <!-- This buttons are shown on a dropdown on mobile phones -->
                 <div id="dropdown" :class="{ active: showMore }">
@@ -71,7 +70,6 @@
     import InfoButton from './buttons/Info'
     import DeleteButton from './buttons/Delete'
     import RenameButton from './buttons/Rename'
-    import ClipboardButton from './buttons/Clipboard'
     import UploadButton from './buttons/Upload'
     import DownloadButton from './buttons/Download'
     import SwitchButton from './buttons/SwitchView'
@@ -79,6 +77,7 @@
     import CopyButton from './buttons/Copy'
     import ShareButton from './buttons/Share'
     import PlayAudioFolder from './buttons/PlayAudioFolder'
+    import DownloadPlaylistBtn from './buttons/DownloadPlaylistBtn'
     import {mapGetters, mapState} from 'vuex'
     import {logoURL} from '@/utils/constants'
     import * as api from '@/api'
@@ -100,7 +99,7 @@
             SwitchButton,
             MoveButton,
             PlayAudioFolder,
-            ClipboardButton
+            DownloadPlaylistBtn
         },
         data: function () {
             return {
@@ -167,6 +166,19 @@
                 if (this.selectedCount == 1) {
                     let itm = this.req.items[this.selected[0]]
                     return this.isFiles && !itm.isDir && itm.type === 'video'
+                }
+            },
+            showDownloadPlaylist() {
+                if (this.selectedCount > 0) {
+                    let res = false
+                    for (let i = 0; i < this.selectedCount; i++) {
+                        let itm = this.req.items[this.selected[i]]
+                        res = itm.isDir || itm.type === 'video' || itm.type === 'image' || itm.type === 'audio'
+                        if (res) {
+                            break
+                        }
+                    }
+                    return res
                 }
             },
             showMore() {

@@ -16,7 +16,7 @@
         name: 'download-button',
         computed: {
             ...mapState(['req', 'selected', 'isShare']),
-            ...mapGetters(['isListing', 'selectedCount'])
+            ...mapGetters(['selectedCount'])
         },
         methods: {
             download: function () {

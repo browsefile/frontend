@@ -13,14 +13,14 @@
                 <li>
 
                     <input type="checkbox" id="allowExternal" v-model="externalLink">
-                    <label for="allowExternal">{{ $t('buttons.allowExternal') }}</label>
+                    <label for="allowExternal">{{ $t('checkbox.allowExternal') }}</label>
                 </li>
                 <li>
                     <input type="checkbox" id="allowLocal" v-model="item.allowLocal">
-                    <label for="allowLocal">{{ $t('buttons.allowLocal') }}</label>
+                    <label for="allowLocal">{{ $t('checkbox.allowLocal') }}</label>
                 </li>
                 <br>
-                <label>{{ $t('buttons.allowedUsers')}}</label>
+                <label>{{ $t('checkbox.allowedUsers')}}</label>
                 <li v-for="u in allowed">
                     <input type="checkbox" :id="u.user" v-model="u.allowed">
                     <label :for="u">{{ u.user }}</label>
