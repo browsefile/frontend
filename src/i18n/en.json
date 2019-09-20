@@ -15,6 +15,7 @@
     "close": "Close",
     "copy": "Copy",
     "copyFile": "Copy file",
+    "externalPLayer":"Open files on external player",
     "copyToClipboard": "Copy to clipboard",
     "create": "Create",
     "delete": "Delete",

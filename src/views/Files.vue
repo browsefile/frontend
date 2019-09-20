@@ -234,7 +234,7 @@
             getParams: function () {
                 let rs = ''
                 if (external && this.$route.query.rootHash) {
-                    rs = '?rootHash=' + this.$route.query.rootHash
+                    rs = '?rootHash=' + encodeURIComponent(this.$route.query.rootHash)
                 } else if (this.$route.query && this.$route.query.share) {
                     rs = '?share=' + this.$route.query.share
                 }

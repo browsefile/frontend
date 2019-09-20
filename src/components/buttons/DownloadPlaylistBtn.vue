@@ -5,11 +5,11 @@
             :aria-label="$t('buttons.copyToClipboard')"
             :title="$t('buttons.copyToClipboard')"><i class="material-icons">live_tv</i></button>
 
-    <button v-else @click="show" :aria-label="$t('buttons.afolder')" :title="$t('buttons.afolder')"
+    <button v-else @click="show" :aria-label="$t('buttons.copyToClipboard')" :title="$t('buttons.copyToClipboard')"
             class="action"
             id="aplay-button">
         <i class="material-icons">live_tv</i>
-        <span>{{ $t('buttons.afolder') }}</span>
+        <span>{{ $t('buttons.copyToClipboard') }}</span>
     </button>
 </template>
 
@@ -20,7 +20,7 @@
     export default {
         name: 'download-playlist-btn',
         computed: {
-            ...mapState(['selected', 'req', 'jwt']),
+            ...mapState(['selected', 'req', 'jwt', 'isShare']),
             ...mapGetters(['selectedCount']),
             isOne: function () {
                 return this.selected.length == 1 && !this.req.items[this.selected[0]].isDir
@@ -34,12 +34,7 @@
 
             },
             buildClipboardLink: function () {
-                let src = ""
-                if (this.selected.length > 0) {
-                    src = url.convertToPreview(this.req.items[this.selected[0]].url, false, this.jwt, this.isShare)
-                }
-
-                return src
+                return url.convertToPreview(this.req.items[this.selected[0]].url, false, this.jwt, this.isShare)
             }
         }
     }

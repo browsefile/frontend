@@ -9,6 +9,7 @@
     "music": "Вся музыка"
   },
   "buttons": {
+    "externalPLayer":"Открыть файлы на внешнем плеере",
     "shell": "Toggle shell",
     "cancel": "Отмена",
     "close": "Закрыть",

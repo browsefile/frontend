@@ -61,25 +61,26 @@ export async function put(url, content = '') {
 }
 
 export function download(format, ...files) {
-
     let url = `${baseURL}/api/download`
+    if (files.length === 1 && format === 'zip') {
+        url += removePrefix(files[0]) + '?'
+    } else {
+        let arg = ''
 
-    let arg = ''
+        for (let file of files) {
+            arg += removePrefix(file) + ','
+        }
 
-    for (let file of files) {
-        arg += removePrefix(file) + ','
+        arg = arg.substring(0, arg.length - 1)
+        arg = encodeURIComponent(arg)
+        url += `/?files=${arg}&`
     }
-
-    arg = arg.substring(0, arg.length - 1)
-    arg = encodeURIComponent(arg)
-    url += `/?files=${arg}&`
 
     if (format !== null) {
         url += `algo=${format}&`
     }
 
     url += `auth=${store.state.jwt}`
-    console.dir(url)
     window.open(url)
 }
 
