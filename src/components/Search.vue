@@ -161,7 +161,7 @@
                             query: {'share': this.$route.query.share, 'rootHash': this.$route.query.rootHash}
                         })
                     } else {
-                        this.$router.push({path: p, query: {'share': u}})
+                        this.$router.push({path: p, query: {'share': this.$route.query.share}})
                     }
                 } else {
                     this.$router.push({path: '/files' + item.url})
