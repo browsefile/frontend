@@ -34,7 +34,7 @@
                     <move-button v-show="showMoveButton"></move-button>
                     <delete-button v-show="showDeleteButton"></delete-button>
                 </div>
-                <play-audio-folder v-show="isListing"></play-audio-folder>
+                <play-audio-folder v-show="showMusicPlayer"></play-audio-folder>
                 <download-playlist-btn v-if="showDownloadPlaylist"></download-playlist-btn>
 
                 <!-- This buttons are shown on a dropdown on mobile phones -->
@@ -135,6 +135,18 @@
                 'isShare'
             ]),
             logoURL: () => logoURL,
+            showMusicPlayer() {
+                let items = false
+                for (let i = 0; i < this.selected.length; i++) {
+                    let itm = this.req.items[this.selected[i]]
+                    items = itm.isDir || itm.type === 'audio'
+                    if (items) {
+                        break
+                    }
+                }
+
+                return this.isListing && items
+            },
             isMobile() {
                 return this.width <= 736
             },
@@ -161,12 +173,6 @@
             },
             showCopyButton() {
                 return this.isFiles && this.selectedCount > 0 && !this.isShare
-            },
-            showClipboardButton() {
-                if (this.selectedCount == 1) {
-                    let itm = this.req.items[this.selected[0]]
-                    return this.isFiles && !itm.isDir && itm.type === 'video'
-                }
             },
             showDownloadPlaylist() {
                 if (this.selectedCount > 0) {

@@ -239,11 +239,11 @@
     "share": "Other users share"
   },
   "search": {
-    "images": "Images",
-    "music": "Music",
-    "pdf": "PDF",
+    "i": "Images",
+    "a": "Music",
+    "p": "PDF",
     "types": "Types",
-    "video": "Video",
+    "v": "Video",
     "search": "Search...",
     "typeToSearch": "Type to search...",
     "pressToSearch": "Press enter to search..."

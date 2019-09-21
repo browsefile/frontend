@@ -63,12 +63,13 @@
     import {mapState, mapGetters, mapMutations} from "vuex"
     import * as url from "@/utils/url"
     import {search} from "@/api"
+    import {external} from '@/utils/constants'
 
     var boxes = {
-        image: {label: "images", icon: "insert_photo"},
-        audio: {label: "music", icon: "volume_up"},
-        video: {label: "video", icon: "movie"},
-        pdf: {label: "pdf", icon: "picture_as_pdf"}
+        i: {label: "i", icon: "insert_photo"},
+        a: {label: "a", icon: "volume_up"},
+        v: {label: "v", icon: "movie"},
+        p: {label: "p", icon: "picture_as_pdf"}
     }
 
     export default {
@@ -111,7 +112,7 @@
             }
         },
         computed: {
-            ...mapState(["user", "show"]),
+            ...mapState(["user", "show", 'isShare']),
             ...mapGetters(["isListing"]),
             boxes() {
                 return boxes
@@ -151,6 +152,17 @@
                         name: item.name,
                         url: item.url
                     }])
+                } else if (this.isShare) {
+                    let p = item.url.split("?")
+                    p = '/shares' + p[0]
+                    if (external) {
+                        this.$router.push({
+                            path: p,
+                            query: {'share': this.$route.query.share, 'rootHash': this.$route.query.rootHash}
+                        })
+                    } else {
+                        this.$router.push({path: p, query: {'share': u}})
+                    }
                 } else {
                     this.$router.push({path: '/files' + item.url})
                 }
@@ -194,7 +206,14 @@
 
                 this.ongoing = true
 
-                this.results = (await search(path, this.value)).items
+                let share, rootHash
+                if (external && this.$route.query.rootHash) {
+                    rootHash = this.$route.query.rootHash
+                } else if (this.$route.query && this.$route.query.share) {
+                    share = this.$route.query.share
+                }
+
+                this.results = (await search(path, this.value, share, rootHash)).items
                 if (!this.results) {
                     this.results = []
                 }

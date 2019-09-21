@@ -238,11 +238,11 @@
     "share": "Открытые файлы других"
   },
   "search": {
-    "images": "Изображения",
-    "music": "Музыка",
-    "pdf": "PDF",
+    "i": "Изображения",
+    "a": "Музыка",
+    "p": "PDF",
     "types": "Типы",
-    "video": "Видео",
+    "v": "Видео",
     "search": "Поиск...",
     "typeToSearch": "Type to search...",
     "pressToSearch": "Press enter to search..."

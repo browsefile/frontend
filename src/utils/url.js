@@ -17,7 +17,7 @@ export function makeFileUrl(isShare, route) {
     if (u[0] !== '/') u = '/' + u
     if (isShare) {
         if (external && route.query.rootHash) {
-            u += "?rootHash=" + route.query.rootHash
+            u += "?rootHash=" + encodeURIComponent(route.query.rootHash)
         } else if (route.query && route.query.share) {
             u += "?share=" + route.query.share
         } else {
