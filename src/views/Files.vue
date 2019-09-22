@@ -2,11 +2,11 @@
     <div>
         <div id="breadcrumbs">
 
-            <router-link v-if="isShare" :to="getBrCrmbURL(true)" :aria-label="$t('sidebar.share')"
+            <router-link v-if="isShare" :to="getBrCrmbURL" :aria-label="$t('sidebar.share')"
                          :title="$t('sidebar.share')">
                 <i class="material-icons">folder_shared</i>
             </router-link>
-            <router-link v-else :to="getBrCrmbURL(false)" :aria-label="$t('files.home')" :title="$t('files.home')">
+            <router-link v-else :to="getBrCrmbURL" :aria-label="$t('files.home')" :title="$t('files.home')">
                 <i class="material-icons">home</i>
             </router-link>
             <span v-for="(link, index) in breadcrumbs" :key="index">
@@ -76,8 +76,8 @@
                 console.dir(this.$route.path)
                 return !this.loading && !this.isListing && !this.isEditor
             },
-            getBrCrmbURL(shr) {
-                if (shr) {
+            getBrCrmbURL() {
+                if (this.isShare) {
                     return '/shares/' + this.getParams()
                 } else {
                     return '/files/'

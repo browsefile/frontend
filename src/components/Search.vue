@@ -46,7 +46,7 @@
                         <div @click="itemClick(s,$event)" style="cursor: pointer;">
                             <i v-if="s.dir" class="material-icons">folder</i>
                             <i v-else class="material-icons">insert_drive_file</i>
-                            <span>./{{ decodeURI(s.url) }}</span>
+                            <span>./{{ decodeURI(s.url).split('?')[0] }}</span>
                         </div>
 
                     </li>
@@ -153,16 +153,19 @@
                         url: item.url
                     }])
                 } else if (this.isShare) {
+                    let q = {}
+                    let u = new URL(document.location.origin + item.url)
                     let p = item.url.split("?")
                     p = '/shares' + p[0]
+
                     if (external) {
-                        this.$router.push({
-                            path: p,
-                            query: {'share': this.$route.query.share, 'rootHash': this.$route.query.rootHash}
-                        })
+                        q['rootHash'] = u.searchParams.get('rootHash')
                     } else {
-                        this.$router.push({path: p, query: {'share': this.$route.query.share}})
+                        q['share'] = u.searchParams.get('share')
                     }
+
+                    this.$router.push({path: p, query: q})
+
                 } else {
                     this.$router.push({path: '/files' + item.url})
                 }
