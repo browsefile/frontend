@@ -155,8 +155,7 @@
                 return (this.nextLink !== '')
             },
             download() {
-                let url = this.req.url.replace('files', 'api/download')
-                return `${baseURL}${url}?auth=${this.jwt}`
+                return `${baseURL}${url.convertToDownload(this.req.url)}?auth=${this.jwt}`
             },
             raw() {
                 return `${this.download}&inline=true`
