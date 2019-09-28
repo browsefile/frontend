@@ -60,7 +60,7 @@
         computed: {
             ...mapGetters([
                 'selectedCount',
-                'isListing',
+                'isListing',co
                 'isEditor',
                 'isFiles'
             ]),
@@ -73,7 +73,6 @@
                 'isShare'
             ]),
             isPreview() {
-                console.dir(this.$route.path)
                 return !this.loading && !this.isListing && !this.isEditor
             },
             getBrCrmbURL() {
