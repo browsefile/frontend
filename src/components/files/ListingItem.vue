@@ -1,5 +1,8 @@
-<template>
-    <div class="item"
+<template xmlns:v-touch="http://www.w3.org/1999/xhtml">
+    <div :id="itmId"
+         @contextmenu.prevent="openContextMenu"
+         v-touch:longtap="openContextMenu"
+         class="item"
          role="button"
          tabindex="0"
          draggable="true"
@@ -8,18 +11,18 @@
          @drop="drop"
          @click="click"
          @dblclick="open"
-         @touchstart="touchstart"
+         v-touch:start="touchstart"
          :data-dir="isDir"
          :aria-label="name"
          :aria-selected="isSelected">
-        <template v-if="thumb||(thumb&&isShare)">
-            <img class="thumb" :src="getThumbNailURL()" @error="thumb = false"/>
-        </template>
-        <template v-else>
-            <div>
+        <div>
+            <template v-if="thumb||(thumb&&isShare)">
+                <img class="thumb" :src="getThumbNailURL()" @error="thumb = false"/>
+            </template>
+            <template v-else>
                 <i class="material-icons">{{ icon }}</i>
-            </div>
-        </template>
+            </template>
+        </div>
         <div>
             <p class="name">{{ name }}</p>
 
@@ -40,7 +43,7 @@
     import moment from 'moment'
     import * as files from "../../api/files";
     import * as url from "@/utils/url"
-    import {external} from '@/utils/constants'
+    import {external, isMobile} from '@/utils/constants'
 
     export default {
         name: 'item',
@@ -54,6 +57,9 @@
         computed: {
             ...mapState(['selected', 'req', 'jwt', 'isShare']),
             ...mapGetters(['selectedCount']),
+            itmId() {
+                return "itm_" + this.index
+            },
             isSelected() {
                 return (this.selected.indexOf(this.index) !== -1)
             },
@@ -80,6 +86,17 @@
         },
         methods: {
             ...mapMutations(['addSelected', 'removeSelected', 'resetSelected']),
+            openContextMenu(e) {
+                if (isMobile) {
+                    if (e.type === 'touchend') {
+                        this.$parent.$refs.menu.openMenu(e, this.index)
+                    }
+                } else {
+                    if (e.type === 'contextmenu') {
+                        this.$parent.$refs.menu.openMenu(e, this.index)
+                    }
+                }
+            },
             getOwner() {
                 return this.url.split('=')[1].split("&")[0]
             },
@@ -168,7 +185,7 @@
 
                 this.addSelected(this.index)
             },
-            touchstart() {
+            touchstart(e) {
                 setTimeout(() => {
                     this.touches = 0
                 }, 300)

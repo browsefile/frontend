@@ -6,6 +6,7 @@ import Vue from '@/utils/vue'
 import {recaptcha, noAuth, external} from '@/utils/constants'
 import {login, validateLogin} from '@/utils/auth'
 import App from '@/App'
+import Vue2TouchEvents from 'vue2-touch-events'
 
 sync(store, router)
 
@@ -32,7 +33,7 @@ async function start() {
             check()
         })
     }
-
+    Vue.use(Vue2TouchEvents)
     new Vue({
         el: '#app',
         store,
@@ -41,6 +42,7 @@ async function start() {
         template: '<App/>',
         components: {App}
     })
+
 }
 
 start()

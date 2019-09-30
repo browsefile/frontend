@@ -60,7 +60,7 @@
         computed: {
             ...mapGetters([
                 'selectedCount',
-                'isListing',co
+                'isListing',
                 'isEditor',
                 'isFiles'
             ]),

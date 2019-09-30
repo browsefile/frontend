@@ -54,10 +54,6 @@ header>div:last-child div {
   display: flex;
 }
 
-header>div:first-child {
-  height: 3em;
-}
-
 header>div:last-child {
   justify-content: flex-end;
 }

@@ -3,14 +3,19 @@
     <button v-if="isOne" class="action copy-clipboard"
             :data-clipboard-text="buildClipboardLink()"
             :aria-label="$t('buttons.externalPLayer')"
-            :title="$t('buttons.externalPLayer')"><i class="material-icons">live_tv</i></button>
-
-    <button v-else @click="show" :aria-label="$t('buttons.externalPLayer')" :title="$t('buttons.externalPLayer')"
-            class="action"
-            id="aplay-button">
+            :title="$t('buttons.externalPLayer')">
         <i class="material-icons">live_tv</i>
         <span>{{ $t('buttons.externalPLayer') }}</span>
     </button>
+
+    <button v-else @click="show"
+            :aria-label="$t('buttons.externalPLayer')"
+            :title="$t('buttons.externalPLayer')"
+            class="action">
+        <i class="material-icons">live_tv</i>
+        <span>{{ $t('buttons.externalPLayer') }}</span>
+    </button>
+
 </template>
 
 <script>

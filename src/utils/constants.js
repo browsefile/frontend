@@ -9,6 +9,7 @@ const version = window.FileBrowser.Version
 const logoURL = `${staticURL}/img/logo.svg`
 const noAuth = window.FileBrowser.NoAuth
 const external = window.FileBrowser.isExternal
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? true : false
 
 export {
     name,
@@ -20,5 +21,6 @@ export {
     signup,
     version,
     noAuth,
-    external
+    external,
+    isMobile
 }

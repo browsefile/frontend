@@ -78,7 +78,7 @@
 #listing.mosaic .item {
     width: calc(33% - 1em);
     margin: .5em;
-    padding: 0.5em;
+    padding: 0.2em;
     border-radius: 0.2em;
     box-shadow: 0 1px 3px rgba(0, 0, 0, .06), 0 1px 2px rgba(0, 0, 0, .12);
 }
@@ -110,7 +110,7 @@
     width: 100%;
     margin: 0;
     border: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 1em;
+    padding: 0.1em;
     border-top: 0;
 }
 
@@ -164,9 +164,8 @@
     display: flex !important;
     background: #fafafa;
     z-index: 999;
-    padding: .85em;
+    padding: .2em;
     border: 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 #listing.list .item.header > div:first-child {
@@ -225,7 +224,7 @@
     position: fixed;
     bottom: -4em;
     left: 0;
-    z-index: 99999;
+    z-index: 9999;
     width: 100%;
     background-color: var(--blue);
     height: 4em;

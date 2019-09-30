@@ -54,11 +54,10 @@
                 </div>
             </div>
         </div>
-
+        <context-menu ref="menu"></context-menu>
         <h2 v-if="req.numDirs > 0">{{ $t('files.folders') }}</h2>
         <div v-if="req.numDirs > 0">
-            <item v-for="(item) in dirs"
-                  :key="base64(item.name)"
+            <item v-for="(item) in dirs" :key="base64(item.name)"
                   v-bind:index="item.index"
                   v-bind:name="item.name"
                   v-bind:isDir="item.isDir"
@@ -67,12 +66,14 @@
                   v-bind:type="item.type"
                   v-bind:size="item.size">
             </item>
+
+
         </div>
 
         <h2 v-if="req.numFiles > 0">{{ $t('files.files') }}</h2>
+
         <div v-if="req.numFiles > 0">
-            <item v-for="(item) in files"
-                  :key="base64(item.name)"
+            <item v-for="(item) in files" :key="base64(item.name)"
                   v-bind:index="item.index"
                   v-bind:name="item.name"
                   v-bind:isDir="item.isDir"
@@ -81,6 +82,7 @@
                   v-bind:type="item.type"
                   v-bind:size="item.size">
             </item>
+
         </div>
 
         <input style="display:none" type="file" id="upload-input" @change="uploadInput($event)" multiple>
@@ -101,10 +103,11 @@
     import css from '@/utils/css'
     import {users, files as api} from '@/api'
     import buttons from '@/utils/buttons'
+    import ContextMenu from "../ContextMenu";
 
     export default {
         name: 'listing',
-        components: {Item},
+        components: {ContextMenu, Item},
         data: function () {
             return {
                 show: 50
