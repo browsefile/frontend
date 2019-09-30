@@ -164,15 +164,17 @@
             },
             openMenu(event, data) {
                 let element = document.getElementById('itm_' + data)
-                //only 1 event
-                element.dispatchEvent(new Event('click'))
-
-                //due to some internal conflict between vue or something, need to trigger second event  only on android, did not test on others
-                if (isMobile && !event.target.classList.contains("thumb")) {
+                //prevent deselect item again
+                if (this.$store.state.selected.indexOf(data) == -1) {
+                    //only 1 event
                     element.dispatchEvent(new Event('click'))
+                    //due to some internal conflict between vue or something, need to trigger second event  only on android, did not test on others
+                    if (isMobile && !event.target.classList.contains("thumb")) {
+                        element.dispatchEvent(new Event('click'))
+                    }
                 }
-
                 this.$refs.menuctx.open(event)
+
             }
         }
     }
