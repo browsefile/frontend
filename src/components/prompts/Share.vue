@@ -7,6 +7,7 @@
         <div class="card-content">
             <ul>
                 <li v-show="item.allowExternal">
+                    <qrcode-vue :value="externalURL"></qrcode-vue>
                     <div><input id="cpyExt" type="text" ref="cpyExt" v-model="externalURL"/>
                     </div>
                 </li>
@@ -44,6 +45,7 @@
 </template>
 
 <script>
+    import QrcodeVue from 'qrcode.vue'
     import {mapState, mapGetters} from 'vuex'
     import {users as u} from '@/api'
     import {share as api} from '@/api'
@@ -51,7 +53,9 @@
 
     export default {
         name: 'share',
-
+        components: {
+            QrcodeVue
+        },
         data: function () {
             return {
                 allUsers: [],

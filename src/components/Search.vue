@@ -155,13 +155,13 @@
                 } else if (this.isShare) {
                     let q = {}
                     let u = new URL(document.location.origin + item.url)
+                    console.dir(document.location)
+                    console.dir(u)
                     let p = item.url.split("?")
                     p = '/shares' + p[0]
 
                     if (external) {
-                        q['rootHash'] = u.searchParams.get('rootHash')
-                    } else {
-                        q['share'] = u.searchParams.get('share')
+                        q['rootHash'] = this.$route.query.rootHash
                     }
 
                     this.$router.push({path: p, query: q})
@@ -209,14 +209,12 @@
 
                 this.ongoing = true
 
-                let share, rootHash
+                let rootHash
                 if (external && this.$route.query.rootHash) {
                     rootHash = this.$route.query.rootHash
-                } else if (this.$route.query && this.$route.query.share) {
-                    share = this.$route.query.share
                 }
 
-                this.results = (await search(path, this.value, share, rootHash)).items
+                this.results = (await search(path, this.value, rootHash)).items
                 if (!this.results) {
                     this.results = []
                 }

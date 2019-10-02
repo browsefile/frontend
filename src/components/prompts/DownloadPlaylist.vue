@@ -82,7 +82,7 @@
                         }
                     }
                     if (this.isShare) {
-                        share.download('m3u_' + ft, ...filesList)
+                        share.download('m3u_' + ft, this.$route.query.rootHash, ...filesList)
                     } else {
                         files.download('m3u_' + ft, ...filesList)
                     }

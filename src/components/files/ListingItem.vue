@@ -32,7 +32,6 @@
             <p class="modified">
                 <time :datetime="modified">{{ humanTime() }}</time>
             </p>
-            <p v-if="isShare" class="owner">{{ getOwner() }}</p>
         </div>
     </div>
 </template>
@@ -97,11 +96,8 @@
                     }
                 }
             },
-            getOwner() {
-                return this.url.split('=')[1].split("&")[0]
-            },
             getThumbNailURL: function () {
-                return url.convertToPreview(this.url, true, this.jwt, this.isShare)
+                return url.convertToPreview(this.url, true, this.jwt, this.isShare, this.$route.query.rootHash)
             },
             humanSize: function () {
                 return filesize(this.size)
@@ -204,17 +200,15 @@
                     }])
                 } else if (this.isShare) {
                     let p = this.url.split("?")
-                    let u = p[1].split("=")[1]
                     p = '/shares' + p[0]
                     if (external) {
-                        u = u.split("&")[0]
                         this.$router.push({
                             path: p,
-                            query: {'share': u, 'rootHash': this.$route.query.rootHash}
+                            query: {'rootHash': this.$route.query.rootHash}
                         })
                     } else {
 
-                        this.$router.push({path: p, query: {'share': u}})
+                        this.$router.push({path: p})
                     }
                 } else {
                     this.$router.push({path: '/files' + this.url})

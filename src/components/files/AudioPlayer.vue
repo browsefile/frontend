@@ -10,6 +10,7 @@
     import {mapMutations, mapGetters, mapState} from 'vuex'
     import * as url_parser from '../../utils/url'
     import {files as api, share as shares} from '@/api'
+    import {external} from "../../utils/constants";
 
     export default {
         name: 'AudioPlayer',
@@ -35,16 +36,19 @@
                     } else {
                         path += "?recursive=true&query=type:audio%20n"
                     }
+                    if (external) {
+                        path += '&rootHash=' + this.$route.query.rootHash
+                    }
 
                     let res
                     if (this.isShare) {
-                        res = await shares.get(path, true)
+                        res = await shares.get(path, false)
                     } else {
                         res = await api.fetch(path)
                     }
                     let itemsFiltered = res.items.filter(it => it.type == 'audio')
                     for (let i in itemsFiltered) {
-                        itemsFiltered[i].url = url_parser.convertToPreview(itemsFiltered[i].url, false, this.jwt, this.isShare)
+                        itemsFiltered[i].url = url_parser.convertToPreview(itemsFiltered[i].url, false, this.jwt, this.isShare, this.$route.query.rootHash)
                     }
 
                     if (itemsFiltered.length > 0)
@@ -69,7 +73,7 @@
 
                 for (let i in  tracks) {
                     let itm = tracks[i]
-                    itm.url = url_parser.convertToPreview(itm.url, false, this.jwt, this.isShare)
+                    itm.url = url_parser.convertToPreview(itm.url, false, this.jwt, this.isShare, this.$route.query.rootHash)
                     this.player.list.add(itm)
                 }
                 if (this.player.list.audios.length == 0) {

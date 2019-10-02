@@ -77,7 +77,7 @@
             },
             getBrCrmbURL() {
                 if (this.isShare) {
-                    let rs
+                    let rs = ''
                     if (external && this.$route.query.rootHash) {
                         rs = '?rootHash=' + encodeURIComponent(this.$route.query.rootHash)
                     } else if (this.$route.query && this.$route.query.share) {
@@ -246,8 +246,6 @@
                 let rs = ''
                 if (external && this.$route.query.rootHash) {
                     rs = '?rootHash=' + encodeURIComponent(this.$route.query.rootHash)
-                } else if (this.$route.query && this.$route.query.share) {
-                    rs = '?share=' + this.$route.query.share
                 }
                 return rs
             }

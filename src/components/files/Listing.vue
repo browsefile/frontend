@@ -42,15 +42,7 @@
                         <span>{{ $t('files.lastModified') }}</span>
                         <i class="material-icons">{{ modifiedIcon }}</i>
                     </p>
-                    <p v-if="isShare" :class="{ active: ownerSorted }" class="owner"
-                       role="textbox"
-                       tabindex="0"
-                       @click="sort('owner')"
-                       :title="$t('files.owner')"
-                       :aria-label="$t('files.owner')">
-                        <span>{{ $t('files.owner') }}</span>
-                        <i class="material-icons">{{ ownerIcon }}</i>
-                    </p>
+
                 </div>
             </div>
         </div>
@@ -124,9 +116,6 @@
             modifiedSorted() {
                 return (this.req.sort === 'modified')
             },
-            ownerSorted() {
-                return (this.req.sort === 'owner')
-            },
             ascOrdered() {
                 return (this.req.order === 'asc')
             },
@@ -170,14 +159,6 @@
             },
             modifiedIcon() {
                 if (this.modifiedSorted && this.ascOrdered) {
-                    return 'arrow_downward'
-                }
-
-                return 'arrow_upward'
-            }
-            ,
-            ownerIcon() {
-                if (this.ownerSorted && this.ascOrdered) {
                     return 'arrow_downward'
                 }
 

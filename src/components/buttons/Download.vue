@@ -22,9 +22,9 @@
             download: function () {
                 if (this.selectedCount === 0) {
                     if (this.isShare) {
-                        share.download('zip', this.$route.path)
+                        share.download('zip', '', this.$route.path)
                     } else {
-                        files.download('zip', this.$route.path)
+                        files.download('zip', this.$route.query.rootHash, this.$route.path)
                     }
                 } else {
                     let filesList = []
@@ -34,7 +34,7 @@
                     }
 
                     if (this.isShare) {
-                        share.download('zip', ...filesList)
+                        share.download('zip', this.$route.query.rootHash, ...filesList)
                     } else {
                         files.download('zip', ...filesList)
                     }

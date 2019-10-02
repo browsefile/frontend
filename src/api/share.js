@@ -5,7 +5,7 @@ import {external} from '@/utils/constants'
 
 export async function get(url, isMeta) {
     url = removePrefix(url)
-    url = '/api/shares/resource' + url
+    url = '/api/shares' + url
     if (isMeta) {
         let sym = '?'
         if (url.includes('?')) {
@@ -40,7 +40,7 @@ export async function getExternal(url, isMeta) {
 }
 
 
-export function download(format, ...files) {
+export function download(format, rootHash, ...files) {
     let url = `${baseURL}/api/shares/download`
 
     let arg = ''
@@ -59,15 +59,17 @@ export function download(format, ...files) {
     }
 
     url += `auth=${store.state.jwt}`
-
-
+    if (rootHash) {
+        url += '&rootHash='+encodeURIComponent(rootHash)
+    }
+    console.dir(url)
     window.open(url)
 }
 
 
 export async function remove(url) {
     url = removePrefix(url)
-    url = '/api/shares/resource' + url
+    url = '/api/shares' + url
 
     const res = await fetchURL(url, {
         method: 'DELETE'
@@ -84,7 +86,7 @@ export async function create(item) {
     if (url.endsWith("/")) {
         url = url.slice(0, -1)
     }
-    url = '/api/shares/resource' + url + '?share=my-meta'
+    url = '/api/shares' + url + '?share=my-meta'
 
 
     return fetchJSON(url, {
