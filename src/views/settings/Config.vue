@@ -9,13 +9,44 @@
 
                 <p>
                     <label for="ip">{{ $t('settings.ip') }}</label>
-                    <input class="input input--block" type="text" v-model="conf.ip" id="ip" name="ip">
+                    <input class="input input--block" type="text" v-model="conf.http.ip" id="ip" name="ip">
                 </p>
 
                 <p>
                     <label for="port">{{ $t('settings.port') }}</label>
-                    <input class="input input--block" type="number" v-model="conf.port" id="port" name="port">
+                    <input class="input input--block" type="number" v-model="conf.http.port" id="port" name="port">
                 </p>
+                <p>
+                    <label for="auth">{{ $t('settings.auth.auth') }}</label>
+                    <select v-model="conf.http.authMethod" id="auth" name="auth">
+                        <option value="ip">{{ $t('settings.auth.ip') }}</option>
+                        <option value="default">{{ $t('settings.auth.default') }}</option>
+                        <option value="noauth">{{ $t('settings.auth.noauth') }}</option>
+                        <option value="proxy">{{ $t('settings.auth.proxy') }}</option>
+                    </select>
+                </p>
+                <br>
+                <h2>{{ $t('settings.configtls') }}</h2>
+
+                <p>
+                    <label for="ip">{{ $t('settings.ips') }}</label>
+                    <input class="input input--block" type="text" v-model="conf.https.ip" id="ips" name="ip">
+                </p>
+
+                <p>
+                    <label for="port">{{ $t('settings.ports') }}</label>
+                    <input class="input input--block" type="number" v-model="conf.https.port" id="ports" name="port">
+                </p>
+                <p>
+                    <label for="auths">{{ $t('settings.auth.auth') }}</label>
+                    <select v-model="conf.https.authMethod" id="auths" name="auths">
+                        <option value="ip">{{ $t('settings.auth.ip') }}</option>
+                        <option value="default">{{ $t('settings.auth.default') }}</option>
+                        <option value="noauth">{{ $t('settings.auth.noauth') }}</option>
+                        <option value="proxy">{{ $t('settings.auth.proxy') }}</option>
+                    </select>
+                </p>
+                <br>
                 <p>
                     <label for="externalShareHost">{{ $t('settings.externalShareHost') }}</label>
                     <input class="input input--block" type="text" v-model="conf.externalShareHost"
@@ -26,15 +57,7 @@
                     <input class="input input--block" type="text" v-model="conf.log" id="log" name="log">
                 </p>
 
-                <p>
-                    <label for="auth">{{ $t('settings.auth.auth') }}</label>
-                    <select :value="conf.auth.method" id="auth" name="auth">
-                        <option value="ip">{{ $t('settings.auth.ip') }}</option>
-                        <option value="default">{{ $t('settings.auth.default') }}</option>
-                        <option value="noauth">{{ $t('settings.auth.noauth') }}</option>
-                        <option value="proxy">{{ $t('settings.auth.proxy') }}</option>
-                    </select>
-                </p>
+
                 <p>
                     <input type="checkbox" :disabled="user.admin" v-model="conf.preview.allowGeneratePreview"> {{
                     $t('settings.preview.allow') }}
@@ -53,6 +76,14 @@
                 <p>
                     <label for="scope">{{ $t('settings.scope') }}</label>
                     <input class="input input--block" type="text" v-model="conf.filesPath" id="scope">
+                </p>
+                <p>
+                    <label for="scope">{{ $t('settings.keyPath') }}</label>
+                    <input class="input input--block" type="text" v-model="conf.tlsKey" id="ke">
+                </p>
+                <p>
+                    <label for="scope">{{ $t('settings.crtPath') }}</label>
+                    <input class="input input--block" type="text" v-model="conf.tlsCert" id="crt">
                 </p>
 
 
@@ -78,13 +109,14 @@
         data: function () {
             return {
                 conf: {
-                    ip: "192.168.1.1",
+                    http: {ip: "192.168.1.1", port: 8081, authMethod: "default"},
+                    https: {ip: "", port: 0, authMethod: "default"},
                     externalShareHost: "http://127.0.0.1:8081",
-                    log: "/var/log/bf.log", port: 8081, preview: {
+                    log: "/var/log/bf.log", preview: {
                         threads: 2,
                         previewsOnFirstRun: false,
                         allowGeneratePreview: true
-                    }, auth: {method: "default"}
+                    }
                 }
             }
         },
