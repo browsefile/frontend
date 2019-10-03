@@ -140,7 +140,7 @@
     "preview": {
       "firstRun": "When enabled, will generate previews for all users",
       "threads": "Threads count used to generate previews",
-      "allow": "Allow generate previews"
+      "path": "Path to the .sh file, that generates previews"
     },
     "ips": "Server ip bind address with tls",
     "ports": "Server port with tls",

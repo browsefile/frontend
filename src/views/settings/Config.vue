@@ -59,8 +59,10 @@
 
 
                 <p>
-                    <input type="checkbox" :disabled="user.admin" v-model="conf.preview.allowGeneratePreview"> {{
-                    $t('settings.preview.allow') }}
+                    <label for="pscript">{{ $t('settings.preview.path') }}</label>
+                    <input class="input input--block" type="text" v-model="conf.preview.scriptPath" id="pscript" name="log">
+
+
                 </p>
                 <p>
                     <input type="checkbox" v-model="conf.preview.previewsOnFirstRun"> {{ $t('settings.preview.firstRun')
