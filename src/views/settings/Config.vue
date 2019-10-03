@@ -138,6 +138,8 @@
                 event.preventDefault()
                 try {
                     this.conf.preview.threads = parseInt(this.conf.preview.threads)
+                    this.conf.http.port = parseInt( this.conf.http.port)
+                    this.conf.https.port = parseInt( this.conf.https.port)
                     api.update(this.conf)
                     this.$showSuccess(this.$t('settings.settingsUpdated'))
                 } catch (e) {
