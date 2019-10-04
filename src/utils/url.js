@@ -57,8 +57,6 @@ export function convertToPreview(url, isPreview, auth, isShare, rootHash) {
     } else {
         res = bu + '/api/download' + url
     }
-    console.dir(res)
-    console.dir(parm)
     return res + sym + encodeUrlData(parm)
 }
 

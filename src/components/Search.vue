@@ -214,7 +214,9 @@
                     rootHash = this.$route.query.rootHash
                 }
 
-                this.results = (await search(path, this.value, rootHash)).items
+                let res = (await search(path, this.value, rootHash))
+                this.$store.commit('updateRequest', res)
+                this.results = res.items
                 if (!this.results) {
                     this.results = []
                 }
