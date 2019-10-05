@@ -17,7 +17,7 @@ export async function get(url, isMeta) {
     let data = await fetchJSON(url)
     if (!isMeta) {
         data.url = `/shares${url}`
-        if (data.isDir) {
+        if (data.isDir && data.items) {
             data.items = data.items.map((item, index) => {
                 item.index = index
                 return item
@@ -60,7 +60,7 @@ export function download(format, rootHash, ...files) {
 
     url += `auth=${store.state.jwt}`
     if (rootHash) {
-        url += '&rootHash='+encodeURIComponent(rootHash)
+        url += '&rootHash=' + encodeURIComponent(rootHash)
     }
     console.dir(url)
     window.open(url)
