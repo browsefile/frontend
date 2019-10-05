@@ -1,19 +1,21 @@
 <template>
     <nav :class="{active}">
-        <router-link class="action" :to="sharesPath" :aria-label="$t('sidebar.share')"
-                     :title="$t('sidebar.share')">
-            <i class="material-icons">folder_shared</i>
-            <span>{{ $t('sidebar.share') }}</span>
-        </router-link>
-
+         <span v-if="!isExternal">
+            <router-link class="action" :to="sharesPath" :aria-label="$t('sidebar.share')"
+                         :title="$t('sidebar.share')">
+                    <i class="material-icons">folder_shared</i>
+                    <span>{{ $t('sidebar.share') }}</span>
+            </router-link>
+        </span>
 
         <template v-if="isLogged">
-            <router-link class="action" :to="filesPath" :aria-label="$t('sidebar.myFiles')"
-                         :title="$t('sidebar.myFiles')">
-                <i class="material-icons">folder</i>
-                <span>{{ $t('sidebar.myFiles') }}</span>
-            </router-link>
-
+            <span v-if="!isExternal">
+                <router-link class="action" :to="filesPath" :aria-label="$t('sidebar.myFiles')"
+                             :title="$t('sidebar.myFiles')">
+                         <i class="material-icons">folder</i>
+                        <span>{{ $t('sidebar.myFiles') }}</span>
+                </router-link>
+            </span>
             <div v-if="user.allowNew && !isShare && isFiles">
                 <button @click="$store.commit('showHover', 'newDir')" class="action"
                         :aria-label="$t('sidebar.newFolder')" :title="$t('sidebar.newFolder')">
@@ -29,12 +31,13 @@
             </div>
 
             <div>
-                <router-link class="action" to="/settings" :aria-label="$t('sidebar.settings')"
-                             :title="$t('sidebar.settings')">
-                    <i class="material-icons">settings_applications</i>
-                    <span>{{ $t('sidebar.settings') }}</span>
-                </router-link>
-
+                  <span v-if="!isExternal">
+                        <router-link class="action" to="/settings" :aria-label="$t('sidebar.settings')"
+                                     :title="$t('sidebar.settings')">
+                            <i class="material-icons">settings_applications</i>
+                            <span>{{ $t('sidebar.settings') }}</span>
+                        </router-link>
+                  </span>
                 <button v-if="!noAuth" @click="logout" class="action" id="logout" :aria-label="$t('sidebar.logout')"
                         :title="$t('sidebar.logout')">
                     <i class="material-icons">exit_to_app</i>
@@ -69,13 +72,16 @@
 <script>
     import {mapState, mapGetters} from 'vuex'
     import * as auth from '@/utils/auth'
-    import {version, signup, disableExternal, noAuth} from '@/utils/constants'
+    import {version, signup, disableExternal, noAuth, external as ext} from '@/utils/constants'
 
     export default {
         name: 'sidebar',
         computed: {
             ...mapState(['user', 'isShare']),
             ...mapGetters(['isLogged', 'isFiles']),
+            isExternal() {
+                return ext
+            },
             sharesPath() {
                 return {path: '/shares/', query: {share: "list"}}
             },
@@ -92,6 +98,8 @@
         },
         methods: {
             help() {
+                if (ext) {
+                }
                 this.$store.commit('showHover', 'help')
             },
             logout: auth.logout

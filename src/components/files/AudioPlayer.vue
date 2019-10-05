@@ -32,9 +32,9 @@
                 try {
 
                     if (path.includes('?')) {
-                        path += '&recursive=true&query=type:audio%20n'
+                        path += '&recursive=true&query=type:a%20n'
                     } else {
-                        path += "?recursive=true&query=type:audio%20n"
+                        path += "?recursive=true&query=type:a%20n"
                     }
                     if (external) {
                         path += '&rootHash=' + this.$route.query.rootHash
@@ -46,7 +46,7 @@
                     } else {
                         res = await api.fetch(path)
                     }
-                    let itemsFiltered = res.items.filter(it => it.type == 'audio')
+                    let itemsFiltered = res.items
                     for (let i in itemsFiltered) {
                         itemsFiltered[i].url = url_parser.convertToPreview(itemsFiltered[i].url, false, this.jwt, this.isShare, this.$route.query.rootHash)
                     }
