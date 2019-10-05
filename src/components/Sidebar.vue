@@ -14,7 +14,7 @@
                 <span>{{ $t('sidebar.myFiles') }}</span>
             </router-link>
 
-            <div v-if="user.allowEdit && !isShare">
+            <div v-if="user.allowNew && !isShare && isFiles">
                 <button @click="$store.commit('showHover', 'newDir')" class="action"
                         :aria-label="$t('sidebar.newFolder')" :title="$t('sidebar.newFolder')">
                     <i class="material-icons">create_new_folder</i>
@@ -75,7 +75,7 @@
         name: 'sidebar',
         computed: {
             ...mapState(['user', 'isShare']),
-            ...mapGetters(['isLogged']),
+            ...mapGetters(['isLogged', 'isFiles']),
             sharesPath() {
                 return {path: '/shares/', query: {share: "list"}}
             },
@@ -95,9 +95,6 @@
                 this.$store.commit('showHover', 'help')
             },
             logout: auth.logout
-        }/*,
-        mounted() {
-            console.log(this.$store.state)
-        }*/
+        }
     }
 </script>

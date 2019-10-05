@@ -46,6 +46,14 @@
                         <option value="proxy">{{ $t('settings.auth.proxy') }}</option>
                     </select>
                 </p>
+                <p>
+                    <label for="scope">{{ $t('settings.keyPath') }}</label>
+                    <input class="input input--block" type="text" v-model="conf.tlsKey" id="ke">
+                </p>
+                <p>
+                    <label for="scope">{{ $t('settings.crtPath') }}</label>
+                    <input class="input input--block" type="text" v-model="conf.tlsCert" id="crt">
+                </p>
                 <br>
                 <p>
                     <label for="externalShareHost">{{ $t('settings.externalShareHost') }}</label>
@@ -57,11 +65,10 @@
                     <input class="input input--block" type="text" v-model="conf.log" id="log" name="log">
                 </p>
 
-
                 <p>
                     <label for="pscript">{{ $t('settings.preview.path') }}</label>
-                    <input class="input input--block" type="text" v-model="conf.preview.scriptPath" id="pscript" name="log">
-
+                    <input class="input input--block" type="text" v-model="conf.preview.scriptPath" id="pscript"
+                           name="log">
 
                 </p>
                 <p>
@@ -79,15 +86,6 @@
                     <label for="scope">{{ $t('settings.scope') }}</label>
                     <input class="input input--block" type="text" v-model="conf.filesPath" id="scope">
                 </p>
-                <p>
-                    <label for="scope">{{ $t('settings.keyPath') }}</label>
-                    <input class="input input--block" type="text" v-model="conf.tlsKey" id="ke">
-                </p>
-                <p>
-                    <label for="scope">{{ $t('settings.crtPath') }}</label>
-                    <input class="input input--block" type="text" v-model="conf.tlsCert" id="crt">
-                </p>
-
 
             </div>
 
@@ -138,8 +136,8 @@
                 event.preventDefault()
                 try {
                     this.conf.preview.threads = parseInt(this.conf.preview.threads)
-                    this.conf.http.port = parseInt( this.conf.http.port)
-                    this.conf.https.port = parseInt( this.conf.https.port)
+                    this.conf.http.port = parseInt(this.conf.http.port)
+                    this.conf.https.port = parseInt(this.conf.https.port)
                     api.update(this.conf)
                     this.$showSuccess(this.$t('settings.settingsUpdated'))
                 } catch (e) {

@@ -1,7 +1,6 @@
 {
   "permanent": "Постоянный",
   "checkbox": {
-    "allowExternal": "Открыть всем внешним пользователям",
     "allowLocal": "Открыть всем зарегестрированым пользователям",
     "allowedUsers": "Открыть пользователям",
     "video": "Все видео файлы",
@@ -163,7 +162,7 @@
       "path": "Путь",
       "ausers": "Разрешенные пользователи",
       "alocal": "Разрешить всем зарегистрированым",
-      "aexternal": "Разрешить всем даже внешним"
+      "aexternal": "Разрешить доступ по ссылке"
     },
     "instanceName": "Instance name",
     "brandingDirectoryPath": "Branding directory path",

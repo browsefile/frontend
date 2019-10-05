@@ -14,7 +14,7 @@
                 <li>
 
                     <input type="checkbox" id="allowExternal" v-model="externalLink">
-                    <label for="allowExternal">{{ $t('checkbox.allowExternal') }}</label>
+                    <label for="allowExternal">{{ $t('settings.share.aexternal') }}</label>
                 </li>
                 <li>
                     <input type="checkbox" id="allowLocal" v-model="item.allowLocal">

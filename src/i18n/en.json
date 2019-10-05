@@ -4,7 +4,6 @@
     "video": "All video files",
     "image": "All images",
     "music": "All music",
-    "allowExternal": "Allow all external users",
     "allowLocal": "Allow all local users",
     "allowedUsers": "Allowed users"
   },
@@ -164,7 +163,7 @@
       "path": "Path",
       "ausers": "Allowed users",
       "alocal": "Allow all registered",
-      "aexternal": "Allow all non authorized and authorized"
+      "aexternal": "Allow access by link"
     },
     "instanceName": "Instance name",
     "brandingDirectoryPath": "Branding directory path",
