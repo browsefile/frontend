@@ -31,9 +31,6 @@
             if (this.req.content === undefined || this.req.content === null) {
                 this.req.content = ''
             }
-            if (this.req.extension) {
-                this.req.language = this.getLang;
-            }
             var editor = document.getElementById('editor')
             editor.value = this.req.content
             editor.addEventListener('input', ()=>autoresize(editor), false);
