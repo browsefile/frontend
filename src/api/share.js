@@ -62,7 +62,6 @@ export function download(format, rootHash, ...files) {
     if (rootHash) {
         url += '&rootHash=' + encodeURIComponent(rootHash)
     }
-    console.dir(url)
     window.open(url)
 }
 

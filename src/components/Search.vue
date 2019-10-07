@@ -155,8 +155,6 @@
                 } else if (this.isShare) {
                     let q = {}
                     let u = new URL(document.location.origin + item.url)
-                    console.dir(document.location)
-                    console.dir(u)
                     let p = item.url.split("?")
                     p = '/shares' + p[0]
 
