@@ -26,7 +26,7 @@ module.exports = {
                                 p = basePath.split('/').slice(0, -1).join('/') + "/src/lib/"
 
                                 //have to install go rice tool before use this
-                                exec('rm rice-box.go; /go/bin/rice embed-go', {cwd: p, shell: '/bin/sh', env: process.env},
+                                exec('rm rice-box.go; rice embed-go', {cwd: p, shell: '/bin/sh', env: process.env},
                                     (err, stdout, stderr) => {
                                         console.dir('ricebox gen done at ' + p)
                                         if (stdout) process.stdout.write(stdout)
