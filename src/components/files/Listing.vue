@@ -97,6 +97,7 @@
     import buttons from '@/utils/buttons'
     import ContextMenu from "../ContextMenu";
     import * as url from "../../utils/url"
+    import * as pLimit from "promise-limit"
 
     export default {
         name: 'listing',
@@ -382,11 +383,13 @@
 
                     this.$store.commit('setProgress', Math.ceil(sum / progress.length))
                 }
+                //limit concurrent upload
+                let limit = pLimit(2)
 
                 for (let i = 0; i < files.length; i++) {
                     let file = files[i]
                     let path = this.$route.path + base + url.encodeRFC5987ValueChars(file.name)
-                    promises.push(api.post(path, file, overwrite, onupload(i)))
+                    promises.push(limit(() => api.post(path, file, overwrite, onupload(i))))
                 }
 
                 let finish = () => {
