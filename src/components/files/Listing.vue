@@ -96,6 +96,7 @@
     import {users, files as api} from '@/api'
     import buttons from '@/utils/buttons'
     import ContextMenu from "../ContextMenu";
+    import * as url from "../../utils/url"
 
     export default {
         name: 'listing',
@@ -297,7 +298,10 @@
                 let files = dt.files
                 let el = event.target
 
-                if (files.length <= 0) return
+                if (files.length <= 0) {
+                    console.error("files empty")
+                    return
+                }
 
                 for (let i = 0; i < 5; i++) {
                     if (el !== null && !el.classList.contains('item')) {
@@ -381,7 +385,8 @@
 
                 for (let i = 0; i < files.length; i++) {
                     let file = files[i]
-                    promises.push(api.post(this.$route.path + base + file.name, file, overwrite, onupload(i)))
+                    let path = this.$route.path + base + url.encodeRFC5987ValueChars(file.name)
+                    promises.push(api.post(path, file, overwrite, onupload(i)))
                 }
 
                 let finish = () => {
