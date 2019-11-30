@@ -159,7 +159,7 @@
                     p = '/shares' + p[0]
 
                     if (external) {
-                        q['rootHash'] = this.$route.query.rootHash
+                        q['exshare'] = this.$route.query.exshare
                     }
 
                     this.$router.push({path: p, query: q})
@@ -207,12 +207,12 @@
 
                 this.ongoing = true
 
-                let rootHash
-                if (external && this.$route.query.rootHash) {
-                    rootHash = this.$route.query.rootHash
+                let exshare
+                if (external && this.$route.query.exshare) {
+                    exshare = this.$route.query.exshare
                 }
 
-                let res = (await search(path, this.value, rootHash))
+                let res = (await search(path, this.value, exshare))
                 this.$store.commit('updateRequest', res)
                 this.results = res.items
                 if (!this.results) {

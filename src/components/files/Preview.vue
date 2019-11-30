@@ -188,7 +188,7 @@
                         this.listing = items
                         let list = []
                         for (let i = 0; i < items.length; i++) {
-                            let src = url.convertToPreview(items[i].url, false, this.jwt, this.isShare, this.$route.query.rootHash)
+                            let src = url.convertToPreview(items[i].url, false, this.jwt, this.isShare, this.$route.query.exshare)
 
                             if (items[i].type == 'video') {
                                 list.push({

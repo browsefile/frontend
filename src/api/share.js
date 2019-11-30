@@ -40,7 +40,7 @@ export async function getExternal(url, isMeta) {
 }
 
 
-export function download(format, rootHash, ...files) {
+export function download(format, exshare, ...files) {
     let url = `${baseURL}/api/shares/download`
 
     let arg = ''
@@ -59,8 +59,8 @@ export function download(format, rootHash, ...files) {
     }
 
     url += `auth=${store.state.jwt}`
-    if (rootHash) {
-        url += '&rootHash=' + encodeURIComponent(rootHash)
+    if (exshare) {
+        url += '&exshare=' + encodeURIComponent(exshare)
     }
     window.open(url)
 }

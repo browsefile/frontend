@@ -97,7 +97,7 @@
                 }
             },
             getThumbNailURL: function () {
-                return url.convertToPreview(this.url, true, this.jwt, this.isShare, this.$route.query.rootHash)
+                return url.convertToPreview(this.url, true, this.jwt, this.isShare, this.$route.query.exshare)
             },
             humanSize: function () {
                 return filesize(this.size)
@@ -204,7 +204,7 @@
                     if (external) {
                         this.$router.push({
                             path: p,
-                            query: {'rootHash': this.$route.query.rootHash}
+                            query: {'exshare': this.$route.query.exshare}
                         })
                     } else {
 

@@ -16,8 +16,8 @@ export function makeFileUrl(isShare, route) {
     if (u === '') u = '/'
     if (u[0] !== '/') u = '/' + u
     if (isShare) {
-        if (external && route.query.rootHash) {
-            u += "?rootHash=" + encodeURIComponent(route.query.rootHash)
+        if (external && route.query.exshare) {
+            u += "?exshare=" + encodeURIComponent(route.query.exshare)
         } else {
             u += "?share=list"
         }
@@ -27,7 +27,7 @@ export function makeFileUrl(isShare, route) {
 }
 
 
-export function convertToPreview(url, isPreview, auth, isShare, rootHash) {
+export function convertToPreview(url, isPreview, auth, isShare, exshare) {
     let res = ""
 
     let bu = window.location.href
@@ -51,8 +51,8 @@ export function convertToPreview(url, isPreview, auth, isShare, rootHash) {
     let sym = url.includes('?') ? '&' : '?';
     if (isShare) {
         res = bu + '/api/shares/download' + url
-        if (rootHash) {
-            parm.rootHash = rootHash
+        if (exshare) {
+            parm.exshare = exshare
         }
     } else {
         res = bu + '/api/download' + url

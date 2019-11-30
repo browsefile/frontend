@@ -39,7 +39,7 @@
 
             },
             buildClipboardLink: function () {
-                return url.convertToPreview(this.req.items[this.selected[0]].url, false, this.jwt, this.isShare, this.$route.query.rootHash)
+                return url.convertToPreview(this.req.items[this.selected[0]].url, false, this.jwt, this.isShare, this.$route.query.exshare)
             }
         }
     }

@@ -37,7 +37,7 @@
                         path += "?recursive=true&query=type:a%20n"
                     }
                     if (external) {
-                        path += '&rootHash=' + this.$route.query.rootHash
+                        path += '&exshare=' + this.$route.query.exshare
                     }
 
                     let res
@@ -48,7 +48,7 @@
                     }
                     let itemsFiltered = res.items
                     for (let i in itemsFiltered) {
-                        itemsFiltered[i].url = url_parser.convertToPreview(itemsFiltered[i].url, false, this.jwt, this.isShare, this.$route.query.rootHash)
+                        itemsFiltered[i].url = url_parser.convertToPreview(itemsFiltered[i].url, false, this.jwt, this.isShare, this.$route.query.exshare)
                     }
 
                     if (itemsFiltered.length > 0)
@@ -73,7 +73,7 @@
 
                 for (let i in  tracks) {
                     let itm = tracks[i]
-                    itm.url = url_parser.convertToPreview(itm.url, false, this.jwt, this.isShare, this.$route.query.rootHash)
+                    itm.url = url_parser.convertToPreview(itm.url, false, this.jwt, this.isShare, this.$route.query.exshare)
                     this.player.list.add(itm)
                 }
                 if (this.player.list.audios.length == 0) {

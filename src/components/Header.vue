@@ -140,7 +140,7 @@
                 if (this.req.items && this.req.items.length > 0) {
                     for (let i = 0; i < this.selected.length; i++) {
                         let itm = this.req.items[this.selected[i]]
-                        items = itm && itm.isDir || itm.type === 'audio'
+                        items = itm && (itm.isDir || itm.type === 'audio')
                         if (items) {
                             break
                         }
