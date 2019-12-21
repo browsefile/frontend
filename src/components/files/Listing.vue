@@ -21,7 +21,7 @@
                        :title="$t('files.sortByName')"
                        :aria-label="$t('files.sortByName')">
                         <span>{{ $t('files.name') }}</span>
-                        <i class="material-icons">{{ nameIcon }}</i>
+                        <i class="material-icons">{{ icon }}</i>
                     </p>
 
                     <p :class="{ active: sizeSorted }" class="size"
@@ -31,7 +31,7 @@
                        :title="$t('files.sortBySize')"
                        :aria-label="$t('files.sortBySize')">
                         <span>{{ $t('files.size') }}</span>
-                        <i class="material-icons">{{ sizeIcon }}</i>
+                        <i class="material-icons">{{ icon }}</i>
                     </p>
                     <p :class="{ active: modifiedSorted }" class="modified"
                        role="button"
@@ -40,7 +40,7 @@
                        :title="$t('files.sortByLastModified')"
                        :aria-label="$t('files.sortByLastModified')">
                         <span>{{ $t('files.lastModified') }}</span>
-                        <i class="material-icons">{{ modifiedIcon }}</i>
+                        <i class="material-icons">{{ icon }}</i>
                     </p>
 
                 </div>
@@ -49,7 +49,7 @@
         <context-menu ref="menu"></context-menu>
         <h2 v-if="req.numDirs > 0">{{ $t('files.folders') }}</h2>
         <div v-if="req.numDirs > 0">
-            <item v-for="(item) in dirs" :key="base64(item.name)"
+            <item v-for="(item, index) in dirs" :key="item.index"
                   v-bind:index="item.index"
                   v-bind:name="item.name"
                   v-bind:isDir="item.isDir"
@@ -65,7 +65,7 @@
         <h2 v-if="req.numFiles > 0">{{ $t('files.files') }}</h2>
 
         <div v-if="req.numFiles > 0">
-            <item v-for="(item) in files" :key="base64(item.name)"
+            <item v-for="(item, index) in files" :key="item.index"
                   v-bind:index="item.index"
                   v-bind:name="item.name"
                   v-bind:isDir="item.isDir"
@@ -125,13 +125,14 @@
                 const dirs = []
                 const files = []
 
-                this.req.items.forEach((item) => {
-                    if (item.isDir) {
-                        dirs.push(item)
+                for (let i = 0; i < this.req.items.length; i++) {
+                    this.req.items[i].index = i
+                    if (this.req.items[i].isDir) {
+                        dirs.push(this.req.items[i])
                     } else {
-                        files.push(item)
+                        files.push(this.req.items[i])
                     }
-                })
+                }
 
                 return {dirs, files}
             },
@@ -145,39 +146,23 @@
 
                 return this.items.files.slice(0, show)
             },
-            nameIcon() {
-                if (this.nameSorted && !this.isAsc) {
-                    return 'arrow_upward'
-                }
-
-                return 'arrow_downward'
-            },
-            sizeIcon() {
-                if (this.sizeSorted && this.isAsc) {
-                    return 'arrow_downward'
-                }
-
-                return 'arrow_upward'
-            },
-            modifiedIcon() {
-                if (this.modifiedSorted && this.isAsc) {
-                    return 'arrow_downward'
-                }
-
-                return 'arrow_upward'
+            icon() {
+                return this.isAsc ? 'arrow_upward' : 'arrow_downward';
             }
         },
+        beforeMount() {
+            if (this.sortField.length == 0) {
+                if (localStorage.sortField && localStorage.sortField.length > 0) {
+                    this.sortField = localStorage.sortField
+                } else {
+                    this.sortField = 'modified'
+                }
+            }
+
+            this.isAsc = localStorage.order == 'asc'
+            this.req.items = this.req.items.sort(this.comparator)
+        },
         mounted() {
-            if (localStorage.sortField) {
-                this.sortField = localStorage.sortField
-            } else {
-                this.sortField = 'name'
-            }
-            if (localStorage.isAsc) {
-                this.isAsc = localStorage.isAsc
-            } else {
-                this.isAsc = false
-            }
             // Check the columns size for the first time.
             this.resizeEvent()
 
@@ -420,44 +405,27 @@
                 return false
             },
             comparator: function (a, b) {
-                let v1;
-                let v2;
-                if (this.sortField === 'modified') {
-                    v1 = moment(a[this.sortField]).valueOf()
-                    v2 = moment(b[this.sortField]).valueOf()
-                } else if (this.sortField === 'name') {
-                    if ("".localeCompare) {
-                        let res = a[this.sortField].localeCompare(b[this.sortField])
-                        if (this.isAsc && res > 0) {
-                            res = -1;
-                        }
-                        return res
-                    } else {
-                        v1 = a[this.sortField]
-                        v2 = b[this.sortField]
-                    }
+                let rs = 0;
+                let v1 = a[this.sortField]
+                let v2 = b[this.sortField]
 
-                } else {
-                    v1 = a[this.sortField]
-                    v2 = b[this.sortField]
+                if (this.sortField === 'modified') {
+                    v1 = moment(v1).valueOf()
+                    v2 = moment(v2).valueOf()
                 }
 
                 if (v1 < v2)
-                    return this.isAsc ? -1 : 1;
+                    rs = this.isAsc ? -1 : 1;
                 else if (v2 < v1)
-                    return this.isAsc ? 1 : -1;
-                else return 0;
+                    rs = this.isAsc ? 1 : -1;
+
+                return rs;
 
             },
             sort(field) {
-                this.isAsc = (field === 'name' && this.nameIcon === 'arrow_upward' ||
-                    field === 'size' && this.sizeIcon === 'arrow_upward' ||
-                    field === 'modified' && this.modifiedIcon === 'arrow_upward')
-                this.sortField = field
-
-                localStorage.sortField = this.sortField
-                localStorage.isAsc = this.isAsc
-
+                this.isAsc = !this.isAsc
+                localStorage.sortField = this.sortField = field
+                localStorage.order = this.isAsc ? 'asc' : 'desc'
                 this.req.items = this.req.items.sort(this.comparator)
             }
         }
