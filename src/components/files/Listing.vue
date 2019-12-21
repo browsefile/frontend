@@ -98,28 +98,28 @@
     import ContextMenu from "../ContextMenu";
     import * as url from "../../utils/url"
     import * as pLimit from "promise-limit"
+    import moment from 'moment'
 
     export default {
         name: 'listing',
         components: {ContextMenu, Item},
         data: function () {
             return {
-                show: 50
+                show: 50,
+                sortField: '',
+                isAsc: false
             }
         },
         computed: {
             ...mapState(['req', 'selected', 'user', 'isShare']),
             nameSorted() {
-                return (this.req.sort === 'name')
+                return (this.sortField === 'name')
             },
             sizeSorted() {
-                return (this.req.sort === 'size')
+                return (this.sortField === 'size')
             },
             modifiedSorted() {
-                return (this.req.sort === 'modified')
-            },
-            ascOrdered() {
-                return (this.req.order === 'asc')
+                return (this.sortField === 'modified')
             },
             items() {
                 const dirs = []
@@ -146,21 +146,21 @@
                 return this.items.files.slice(0, show)
             },
             nameIcon() {
-                if (this.nameSorted && !this.ascOrdered) {
+                if (this.nameSorted && !this.isAsc) {
                     return 'arrow_upward'
                 }
 
                 return 'arrow_downward'
             },
             sizeIcon() {
-                if (this.sizeSorted && this.ascOrdered) {
+                if (this.sizeSorted && this.isAsc) {
                     return 'arrow_downward'
                 }
 
                 return 'arrow_upward'
             },
             modifiedIcon() {
-                if (this.modifiedSorted && this.ascOrdered) {
+                if (this.modifiedSorted && this.isAsc) {
                     return 'arrow_downward'
                 }
 
@@ -168,6 +168,16 @@
             }
         },
         mounted() {
+            if (localStorage.sortField) {
+                this.sortField = localStorage.sortField
+            } else {
+                this.sortField = 'name'
+            }
+            if (localStorage.isAsc) {
+                this.isAsc = localStorage.isAsc
+            } else {
+                this.isAsc = false
+            }
             // Check the columns size for the first time.
             this.resizeEvent()
 
@@ -409,21 +419,46 @@
 
                 return false
             },
-            sort(srt) {
-                let order = 'desc'
+            comparator: function (a, b) {
+                let v1;
+                let v2;
+                if (this.sortField === 'modified') {
+                    v1 = moment(a[this.sortField]).valueOf()
+                    v2 = moment(b[this.sortField]).valueOf()
+                } else if (this.sortField === 'name') {
+                    if ("".localeCompare) {
+                        let res = a[this.sortField].localeCompare(b[this.sortField])
+                        if (this.isAsc && res > 0) {
+                            res = -1;
+                        }
+                        return res
+                    } else {
+                        v1 = a[this.sortField]
+                        v2 = b[this.sortField]
+                    }
 
-                if (srt === 'name' && this.nameIcon === 'arrow_upward' ||
-                    srt === 'size' && this.sizeIcon === 'arrow_upward' ||
-                    srt === 'modified' && this.modifiedIcon === 'arrow_upward') {
-                    order = 'asc'
+                } else {
+                    v1 = a[this.sortField]
+                    v2 = b[this.sortField]
                 }
 
-                let path = this.$store.state.baseURL
-                if (path === '') path = '/'
+                if (v1 < v2)
+                    return this.isAsc ? -1 : 1;
+                else if (v2 < v1)
+                    return this.isAsc ? 1 : -1;
+                else return 0;
 
-                document.cookie = `sort=${srt}; max-age=31536000; path=${path}`
-                document.cookie = `order=${order}; max-age=31536000; path=${path}`
-                this.setReload(true)
+            },
+            sort(field) {
+                this.isAsc = (field === 'name' && this.nameIcon === 'arrow_upward' ||
+                    field === 'size' && this.sizeIcon === 'arrow_upward' ||
+                    field === 'modified' && this.modifiedIcon === 'arrow_upward')
+                this.sortField = field
+
+                localStorage.sortField = this.sortField
+                localStorage.isAsc = this.isAsc
+
+                this.req.items = this.req.items.sort(this.comparator)
             }
         }
     }
