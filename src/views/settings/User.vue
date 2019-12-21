@@ -93,7 +93,6 @@
                             passsword: '',
                             rules: [],
                             lockPassword: false,
-                            id: 0
                         }
                     } else {
                         const id = this.$route.params.pathMatch
