@@ -122,7 +122,9 @@
                 event.preventDefault()
                 this.user.uid = parseInt(this.user.uid)
                 this.user.gid = parseInt(this.user.gid)
-
+                if (this.user.ipAuth) {
+                    this.user.ipAuth = this.user.ipAuth.replace(' ', '').split(',');
+                }
 
                 let user = {
                     ...this.originalUser,
